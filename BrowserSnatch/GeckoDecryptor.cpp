@@ -23,6 +23,9 @@ bool GeckoDecryptor::GeckoDecryptorInit(std::string& target_mozilla_browser)
 		m_hMozGlue = LoadLibrary(wide_mozglue_dll_path.c_str());
 		m_hNss3 = LoadLibrary(wide_mss3_dll_path.c_str());
 
+		//m_hMozGlue = LoadLibraryA(mozglue_dll_path.c_str());
+		//m_hNss3 = LoadLibraryA(mozglue_dll_path.c_str());
+
 		if (!m_hMozGlue || !m_hNss3) return false;
 
 		m_NssInit = reinterpret_cast<NssInit*>(GetProcAddress(m_hNss3, "NSS_Init"));
