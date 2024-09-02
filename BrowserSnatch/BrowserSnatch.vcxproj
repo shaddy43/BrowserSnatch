@@ -139,17 +139,17 @@
     <ClCompile Include="sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChromiumDecryptor.h" />
-    <ClInclude Include="ChromiumParser.h" />
-    <ClInclude Include="DataHolder.h" />
-    <ClInclude Include="GeckoDecryptor.h" />
-    <ClInclude Include="GeckoParser.h" />
-    <ClInclude Include="DataDump.h" />
-    <ClInclude Include="Imports.h" />
-    <ClInclude Include="sqlite3.h" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="includes\ChromiumDecryptor.h" />
+    <ClInclude Include="includes\ChromiumParser.h" />
+    <ClInclude Include="includes\DataDump.h" />
+    <ClInclude Include="includes\DataHolder.h" />
+    <ClInclude Include="includes\GeckoDecryptor.h" />
+    <ClInclude Include="includes\GeckoParser.h" />
+    <ClInclude Include="includes\Imports.h" />
+    <ClInclude Include="includes\sqlite3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

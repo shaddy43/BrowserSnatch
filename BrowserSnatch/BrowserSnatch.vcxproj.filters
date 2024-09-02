@@ -38,32 +38,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sqlite3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Imports.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChromiumDecryptor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChromiumParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DataHolder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeckoParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeckoDecryptor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DataDump.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="includes\ChromiumParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ChromiumDecryptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\DataDump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\DataHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\GeckoDecryptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\GeckoParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Imports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
