@@ -6,6 +6,9 @@
 #include "Imports.h"
 #include "DataHolder.h"
 
-bool dump_data(const std::string& db_path, DataHolder* data_array, int data_index);
+bool dump_data(const std::string& db_path, std::vector<DataHolder> data_array, int data_index);
+bool dump_cookie_data(const std::string& db_path, std::vector<DataHolder> data_array, int data_index);
+sqlite3_stmt* query_database(std::string target_login_data, const char* database_query);
+BOOL custom_copy_file(const std::string& sourceFile, const std::string& destinationFile);
 
 #endif // DATADUMP_H
