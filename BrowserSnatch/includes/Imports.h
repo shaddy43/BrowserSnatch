@@ -17,6 +17,7 @@
 #include "sqlite3.h"
 #include <vector>
 #include <cstdlib>
+#include <map>
 #include <ctime>
 #include <filesystem>
 #include <nlohmann/json.hpp>
