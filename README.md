@@ -3,8 +3,6 @@
 
 <div align="center">
   <img width="500px" src="Assets/browser_snatch.jpg" />
-  <h1>MalwareAnalysisSeries</h1>
-  <br />  
 </div>
 
 ### All in one Browser Data Extraction Tool
