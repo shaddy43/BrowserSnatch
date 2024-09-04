@@ -12,12 +12,14 @@ public:
 
     // Function to start the visualization
     void visualization_main();
+    BOOL default_settings(std::string converted_username, std::string stealer_db);
 
 private:
     void clearConsole();
     void printDivider(char ch, int length);
     void printMenu();
     void handleUserChoice(int choice);
+    
     std::string converted_username;
     std::string stealer_db;
 };

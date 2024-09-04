@@ -1,6 +1,8 @@
-## BrowserSnatch (All in one Browser Data Extraction Tool)
+## BrowserSnatch
 ----------------------------------------------------
-### (All Chromium and All Gecko Based Browsers)
+
+### All in one Browser Data Extraction Tool
+
 BrowserSnatch is a powerful and versatile pen-testing tool designed to **"snatch"** sensitive data from a variety of web browsers. This tool targets both Chromium-based browsers (such as Edge, Chrome, Opera, etc.) and Gecko-based browsers (such as Firefox, Thunderbird, etc.) overall including more than **40 browsers**, making it a comprehensive solution for browser data extraction.
 
 --------------------------------------------------
@@ -16,7 +18,7 @@ BrowserSnatch is a powerful and versatile pen-testing tool designed to **"snatch
 
 --------------------------------------------------
 
-### ✨ Why BrowserSnatch?
+### ✨ Whats NEW?
 
 - **Easy to Use**: No complicated setup or configuration required
 - **Zero External Dependencies**: Completely written in C and C++, with little to no need for additional libraries
@@ -65,7 +67,14 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 
 --------------------------------------------------
 
-### Support Dump Info for List Browsers:
+### DEMO
+Following GIF demonstrates the working of BrowserSnatch and how its stealer log can be accessed.
+
+![Demo](Assets/Demo.gif)
+
+--------------------------------------------------
+
+### Supported Browser Snatch:
 
 | № | Browser Name | Passwords | Cookies | History | Bookmarks |
 | --- | --- | --- | --- | --- | --- |
@@ -105,28 +114,27 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 | 34 | Chedot | &#9989; | &#9989; | &#8987; | &#8987; |
 | 35 | liebao | &#9989; | &#9989; | &#8987; | &#8987; |
 | 36 | 7Star | &#9989; | &#9989; | &#8987; | &#8987; |
-| 37 | MapleStudio - ChromePlus | &#9989; | &#9989; | &#8987; | &#8987; |
-| 38 | CatalineGroup - Citrio | &#9989; | &#9989; | &#8987; | &#8987; |
+| 37 | ChromePlus | &#9989; | &#9989; | &#8987; | &#8987; |
+| 38 | Citrio | &#9989; | &#9989; | &#8987; | &#8987; |
 | 39 | 360Chrome - Chrome | &#9989; | &#9989; | &#8987; | &#8987; |
 | 40 | Elements Browser | &#9989; | &#9989; | &#8987; | &#8987; |
-| 41 | Epic Privacy Browser | &#9989; | &#9989; | &#8987; | &#8987; |
-| 42 | Sleipnir5 | &#9989; | &#9989; | &#8987; | &#8987; |
-| 43 | ChromiumViewer | &#9989; | &#9989; | &#8987; | &#8987; |
-| 44 | QIP Surf | &#9989; | &#9989; | &#8987; | &#8987; |
-| 45 | Coowon| &#9989; | &#9989; | &#8987; | &#8987; |
+| 41 | Sleipnir5 | &#9989; | &#9989; | &#8987; | &#8987; |
+| 42 | ChromiumViewer | &#9989; | &#9989; | &#8987; | &#8987; |
+| 43 | QIP Surf | &#9989; | &#9989; | &#8987; | &#8987; |
+| 44 | Coowon| &#9989; | &#9989; | &#8987; | &#8987; |
 
 --------------------------------------------------
 
 ### 🔄 Future Updates
-- **Bookmark and History Snatching**: Currently under development.
-- **Advanced Defense Evasion Techniques**: Obfuscation, custom API calls, and more.
+- **Bookmark and History Snatching**: Currently under development
+- **Advanced Defense Evasion Techniques**: String obfuscation, dynamic api resolution and other defense evasion techniques
 
 Stay tuned for future releases!
 
 --------------------------------------------------
 
 ### 📧 Contact
-For any inquiries or contributions, feel free to reach out to the author or contribute directly via GitHub Issues.
+For any inquiries or contributions, feel free to reach out to the [author](https://shaddy43.github.io) or contribute directly via GitHub Issues.
 
 --------------------------------------------------
 
