@@ -39,31 +39,6 @@ bool GeckoDecryptor::GeckoDecryptorInit(std::string& target_mozilla_browser)
 		return false;
 	}
 
-
-
- //   std::string target_browser_dll = target_mozilla_browser + "\\nss3.dll";
-
-	//// load nss3.dll and use its decryption function
- //   HMODULE hModule = LoadLibraryA(LPCSTR(target_browser_dll.c_str()));
- //   if (hModule == NULL) {
- //       // Handle the error
- //       printf("Could not load the DLL\n");
- //       std::cout << "Path not found .." << std::endl;
- //       return false;
- //   }
-
-
-
-	/*std::string decoded_pass = decode_base64(password);
-	unsigned char* decoded_pass_char = (unsigned char*)decoded_pass.c_str();
-
-    SECItem in;
-    SECItem out;
-
-    in.type = SECItemType::siBuffer;
-	in.data = decoded_pass_char;
-	in.len = decoded_pass.length();*/
-
 	return false;
 }
 
@@ -71,7 +46,6 @@ std::string decode_base64(std::string MasterString)
 {
 	std::vector<unsigned char> binaryKey;
 	DWORD binaryKeySize = 0;
-
 
 	// Decoding the base64 encoded string to binary data.
 	if (!CryptStringToBinaryA(MasterString.c_str(), 0, CRYPT_STRING_BASE64, NULL, &binaryKeySize, NULL, NULL))

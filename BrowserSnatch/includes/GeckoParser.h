@@ -4,6 +4,7 @@
 #include "includes\DataHolder.h"
 #include "includes\DataDump.h"
 #include "includes\GeckoDecryptor.h"
+#include "includes\Helper.h"
 
 using namespace std::filesystem;
 using json = nlohmann::json;
