@@ -63,7 +63,7 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 ./BrowserSnatch --help
 ```
 
-![Console](Assets/console.png)
+![Console](Assets/console_img.png)
 
 --------------------------------------------------
 
