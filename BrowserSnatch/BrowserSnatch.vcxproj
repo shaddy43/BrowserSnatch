@@ -134,9 +134,11 @@
     <ClCompile Include="ChromiumParser.cpp" />
     <ClCompile Include="GeckoDecryptor.cpp" />
     <ClCompile Include="GeckoParser.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="DataDump.cpp" />
     <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="Visualizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -148,8 +150,10 @@
     <ClInclude Include="includes\DataHolder.h" />
     <ClInclude Include="includes\GeckoDecryptor.h" />
     <ClInclude Include="includes\GeckoParser.h" />
+    <ClInclude Include="includes\Helper.h" />
     <ClInclude Include="includes\Imports.h" />
     <ClInclude Include="includes\sqlite3.h" />
+    <ClInclude Include="includes\Visualizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
