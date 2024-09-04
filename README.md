@@ -1,6 +1,12 @@
 ## BrowserSnatch
 ----------------------------------------------------
 
+<div align="center">
+  <img width="500px" src="Assets/browser_snatch.jpg" />
+  <h1>MalwareAnalysisSeries</h1>
+  <br />  
+</div>
+
 ### All in one Browser Data Extraction Tool
 
 BrowserSnatch is a powerful and versatile pen-testing tool designed to **"snatch"** sensitive data from a variety of web browsers. This tool targets both Chromium-based browsers (such as Edge, Chrome, Opera, etc.) and Gecko-based browsers (such as Firefox, Thunderbird, etc.) overall including more than **40 browsers**, making it a comprehensive solution for browser data extraction.
