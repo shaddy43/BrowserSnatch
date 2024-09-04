@@ -11,6 +11,7 @@ BrowserSnatch is a powerful and versatile pen-testing tool designed to **"snatch
 - **Upcoming Features**: Future versions will also support snatching of:
         - Bookmarks
         - Browser History
+
 **Note**: This version does not include obfuscated strings, API calls, or other defense evasion techniques, but these features are planned for future updates
 
 --------------------------------------------------
@@ -45,6 +46,7 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 
 **Default Mode**
 - No Parameter Provided: Executes with default settings and attempts to snatch all saved passwords and cookies
+
 **Help Mode**
 - Parameter: --help: Displays a user-friendly visualized console menu for easy operation
 
@@ -58,6 +60,9 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 ```sh
 ./BrowserSnatch --help
 ```
+
+![Console](Assets/console.png)
+
 --------------------------------------------------
 
 ### Support Dump Info for List Browsers:
