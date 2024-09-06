@@ -68,13 +68,17 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
     - Parameter: -cookies -g: Snatch cookies from Gecko-based browsers only.
 
 <!-- ![Help Menu](Assets/help-menu.png) -->
-<img src="Assets/help-menu.png" alt="Help Menu" width="400"/>
+<p align="center">
+  <img src="Assets/help-menu.png" alt="Help Menu" width="600"/>
+</p>
 
 **Console Mode**
 - Parameter: -console-mode: Displays a user-friendly console.
 
 <!-- ![Help Menu](Assets/console-mode.png) -->
-<img src="Assets/console-mode.png" alt="Help Menu" width="400"/>
+<p align="center">
+  <img src="Assets/console-mode.png" alt="Help Menu" width="600"/>
+</p>
 
 #### 📝 Example
 - Run the following command to start BrowserSnatch in default mode:
