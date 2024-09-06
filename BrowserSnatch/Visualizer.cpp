@@ -122,19 +122,19 @@ void Visualizer::handleUserChoice(int choice) {
 }
 
 void Visualizer::displayHelp() {
-    std::cout << "BrowserSnatch v1.0 - A versatile browser data extraction tool.\n";
+    std::cout << "BrowserSnatch v1.0 - A versatile browser data extraction tool\n";
     std::cout << "(C) 2024 shaddy43\n\n";
     std::cout << "Usage: BrowserSnatch [OPTIONS]\n\n";
-    std::cout << "No parameter        Run with default settings, snatch everything from all browsers.\n\n";
+    std::cout << "No parameter        Run with default settings, snatch everything from all browsers\n\n";
     std::cout << "Options:\n";
-    std::cout << "  -h                Help menu.\n";
-    std::cout << "  -pass             Snatch passwords from every browser.\n";
-    std::cout << "  -pass -c          Snatch passwords from Chromium browsers only.\n";
-    std::cout << "  -pass -g          Snatch passwords from Gecko browsers only.\n";
-    std::cout << "  -cookies          Snatch cookies from every browser.\n";
-    std::cout << "  -cookies -c       Snatch cookies from Chromium browsers only.\n";
-    std::cout << "  -cookies -g       Snatch cookies from Gecko browsers only.\n";
-    std::cout << "  -console-mode     Launch BrowserSnatch Console Mode.\n\n";
+    std::cout << "  -h                Help menu\n";
+    std::cout << "  -pass             Snatch passwords from every browser\n";
+    std::cout << "  -pass -c          Snatch passwords from Chromium browsers only\n";
+    std::cout << "  -pass -g          Snatch passwords from Gecko browsers only\n";
+    std::cout << "  -cookies          Snatch cookies from every browser\n";
+    std::cout << "  -cookies -c       Snatch cookies from Chromium browsers only\n";
+    std::cout << "  -cookies -g       Snatch cookies from Gecko browsers only\n";
+    std::cout << "  -console-mode     Launch BrowserSnatch Console Mode\n\n";
     std::cout << "For more details, visit: https://shaddy43.github.io\n";
 }
 
