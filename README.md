@@ -5,9 +5,9 @@
   <img width="500px" src="Assets/browser_snatch.jpg" />
 </div>
 
-### All in one Browser Data Extraction Tool
+### A Versatile Browser Data Extraction Tool
 
-BrowserSnatch is a powerful and versatile pen-testing tool designed to **"snatch"** sensitive data from a variety of web browsers. This tool targets both Chromium-based browsers (such as Edge, Chrome, Opera, etc.) and Gecko-based browsers (such as Firefox, Thunderbird, etc.) overall including more than **40 browsers**, making it a comprehensive solution for browser data extraction.
+BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitive data from a variety of web browsers. This tool targets both Chromium-based browsers (such as Edge, Chrome, Opera, etc.) and Gecko-based browsers (such as Firefox, Thunderbird, etc.) overall including more than **40 browsers**, making it a comprehensive solution for browser data extraction.
 
 --------------------------------------------------
 
@@ -15,10 +15,11 @@ BrowserSnatch is a powerful and versatile pen-testing tool designed to **"snatch
 - **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
 - **Snatch Cookies**: Extract cookies from user profiles across multiple browsers
 - **Upcoming Features**: Future versions will also support snatching of:
+
         - Bookmarks
         - Browser History
 
-**Note**: This version does not include obfuscated strings, API calls, or other defense evasion techniques, but these features are planned for future updates
+**Note**: This version does not include obfuscated strings or API calls and any other defense evasion technique. Those are planned for future releases.
 
 --------------------------------------------------
 
@@ -53,8 +54,27 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 **Default Mode**
 - No Parameter Provided: Executes with default settings and attempts to snatch all saved passwords and cookies
 
-**Help Mode**
-- Parameter: --help: Displays a user-friendly visualized console menu for easy operation
+**CommandLine Mode**
+- Parameter: -h: Displays a help menu detailing all available options.
+
+  **Password Snatching**
+    - Parameter: -pass: Snatch passwords from every browser.
+    - Parameter: -pass -c: Snatch passwords from Chromium-based browsers only.
+    - Parameter: -pass -g: Snatch passwords from Gecko-based browsers only.
+
+  **Cookie Snatching**
+    - Parameter: -cookies: Snatch cookies from every browser.
+    - Parameter: -cookies -c: Snatch cookies from Chromium-based browsers only.
+    - Parameter: -cookies -g: Snatch cookies from Gecko-based browsers only.
+
+<!-- ![Help Menu](Assets/help-menu.png) -->
+<img src="Assets/help-menu.png" alt="Help Menu" width="400"/>
+
+**Console Mode**
+- Parameter: -console-mode: Displays a user-friendly console.
+
+<!-- ![Help Menu](Assets/console-mode.png) -->
+<img src="Assets/console-mode.png" alt="Help Menu" width="400"/>
 
 #### 📝 Example
 - Run the following command to start BrowserSnatch in default mode:
@@ -64,10 +84,43 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 
 - To see the user-friendly console interface, use:
 ```sh
-./BrowserSnatch --help
+./BrowserSnatch -console-mode
 ```
 
-![Console](Assets/console_img.png)
+- To see help menu, use:
+```sh
+./BrowserSnatch -h
+```
+
+- To Snatch all browser passwords, use:
+```sh
+./BrowserSnatch -pass
+```
+
+- To Snatch chromium browser passwords, use:
+```sh
+./BrowserSnatch -pass -c
+```
+
+- To Snatch gecko browser passwords, use:
+```sh
+./BrowserSnatch -pass -g
+```
+
+- To Snatch all browser cookies, use:
+```sh
+./BrowserSnatch -cookies
+```
+
+- To Snatch chromium browser cookies, use:
+```sh
+./BrowserSnatch -cookies -c
+```
+
+- To Snatch gecko browser cookies, use:
+```sh
+./BrowserSnatch -cookies -g
+```
 
 --------------------------------------------------
 
