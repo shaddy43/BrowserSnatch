@@ -62,6 +62,7 @@ public:
         std::string name;
         std::string type;
         std::string url;
+        std::string host;
 
     public:
         // Getters
@@ -69,12 +70,14 @@ public:
         std::string getName() const { return name; }
         std::string getType() const { return type; }
         std::string getUrl() const { return url; }
+        std::string getHost() const { return host; }
 
         // Setters
         void setDateAdded(const std::string& date) { date_added = date; }
         void setName(const std::string& n) { name = n; }
         void setType(const std::string& t) { type = t; }
         void setUrl(const std::string& u) { url = u; }
+        void setHost(const std::string& h) { host = h; }
     };
 
 private:

