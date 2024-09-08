@@ -48,10 +48,10 @@ bool dump_password_data(const std::string& db_path, std::vector<DataHolder> data
 	for (int i = 0; i < data_index; ++i) {
 
 		//c_str() doesn't work directly on function returns. It works with pointers
-		url_string = data_array[i].getUrl();
-		username_string = data_array[i].getUsername();
-		password_string = data_array[i].getPassword();
-		host_string = data_array[i].getHost();
+		url_string = data_array[i].get_password_manager().getUrl();
+		username_string = data_array[i].get_password_manager().getUsername();
+		password_string = data_array[i].get_password_manager().getPassword();
+		host_string = data_array[i].get_password_manager().getHost();
 
 		sqlite3_bind_text(stmt, 1, url_string.c_str(), -1, SQLITE_STATIC);
 		sqlite3_bind_text(stmt, 2, username_string.c_str(), -1, SQLITE_STATIC);
@@ -125,11 +125,11 @@ bool dump_cookie_data(const std::string& db_path, std::vector<DataHolder> data_a
 	// Bind the data and execute the statement
 	for (int i = 0; i < data_index; ++i) {
 
-		url_string = data_array[i].getUrl();
-		name_string = data_array[i].getCookieName();
-		value_string = data_array[i].getCookies();
-		expiry_string = data_array[i].getCookieExpiry();
-		host_string = data_array[i].getHost();
+		url_string = data_array[i].get_cookies_manager().getUrl();
+		name_string = data_array[i].get_cookies_manager().getCookieName();
+		value_string = data_array[i].get_cookies_manager().getCookies();
+		expiry_string = data_array[i].get_cookies_manager().getCookiesExpiry();
+		host_string = data_array[i].get_cookies_manager().getHost();
 
 		sqlite3_bind_text(stmt, 1, url_string.c_str(), -1, SQLITE_STATIC);
 		sqlite3_bind_text(stmt, 2, name_string.c_str(), -1, SQLITE_STATIC);
