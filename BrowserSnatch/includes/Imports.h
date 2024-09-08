@@ -28,4 +28,6 @@
 const int IV_SIZE = 12;
 const int TAG_SIZE = 16;
 
+using json = nlohmann::json;
+
 #endif /* IMPORTS_H */

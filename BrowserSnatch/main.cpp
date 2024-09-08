@@ -102,6 +102,26 @@ int main(int argc, char* argv[])
             visualizer.handler(6);
         }
     }
+    else if (std::string(argv[1]) == "-bookmarks") {
+        // Handle -bookmark options
+        if (argc > 2) {
+            if (std::string(argv[2]) == "-c") {
+                std::cout << "Target Chromium Browser bookmarks...\n";
+                visualizer.handler(7);
+            }
+            else if (std::string(argv[2]) == "-g") {
+                std::cout << "Target Gecko Browser bookmarks...\n";
+                visualizer.handler(8);
+            }
+            else {
+                std::cout << "Invalid option for -bookmarks. Use -h for help.\n";
+            }
+        }
+        else {
+            std::cout << "Target all browser bookmarks...\n";
+            visualizer.handler(9);
+        }
+    }
     else {
         std::cout << "Invalid parameter. Use -h for help.\n";
     }
