@@ -216,5 +216,5 @@ For any inquiries or contributions, feel free to reach out to the [author](https
 --------------------------------------------------
 
 ### 🙏 Acknowledgments
-Took a lot of help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
-Took help with chrome key decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
+- Took a lot of help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
+- Took help with chrome key decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).

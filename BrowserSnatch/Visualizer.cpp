@@ -18,7 +18,7 @@ void Visualizer::visualization_main() {
     int choice;
     do {
         printMenu();
-        std::cout << "\n\033[1;34mChoose an option to proceed (0-5): \033[0m";
+        std::cout << "\n\033[1;34mChoose an option to proceed (0-7): \033[0m";
         std::cin >> choice;
 
         handleUserChoice(choice);
@@ -80,7 +80,6 @@ BOOL Visualizer::default_settings(std::string converted_username, std::string st
     }
 }
 
-// Function to handle the user's choice
 void Visualizer::handleUserChoice(int choice) {
     switch (choice) {
     case 1:
