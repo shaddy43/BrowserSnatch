@@ -80,16 +80,43 @@ public:
         void setHost(const std::string& h) { host = h; }
     };
 
+    // Nested class for History
+    class History {
+    private:
+        std::string url;
+        std::string title;
+        std::string visit_count;
+        std::string last_visit_time;
+        std::string host;
+
+    public:
+        // Getters
+        std::string getVisitCount() const { return visit_count; }
+        std::string getTitle() const { return title; }
+        std::string getLastVisitTime() const { return last_visit_time; }
+        std::string getUrl() const { return url; }
+        std::string getHost() const { return host; }
+
+        // Setters
+        void setVisitCount(const std::string& c) { visit_count = c; }
+        void setTitle(const std::string& t) { title = t; }
+        void setLastVisitTime(const std::string& l) { last_visit_time = l; }
+        void setUrl(const std::string& u) { url = u; }
+        void setHost(const std::string& h) { host = h; }
+    };
+
 private:
     Passwords password_manager;
     Cookies cookies_manager;
     Bookmark bookmarks_manager;
+    History history_manager;
 
 public:
     // Accessors for nested classes
     Passwords& get_password_manager() { return password_manager; }
     Cookies& get_cookies_manager() { return cookies_manager; }
     Bookmark& get_bookmarks_manager() { return bookmarks_manager; }
+    History& get_history_manager() { return history_manager; }
 };
 
 #endif // DATAHOLDER_H

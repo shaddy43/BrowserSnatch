@@ -14,11 +14,14 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 ### 🚀 Capabilities
 - **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
 - **Snatch Cookies**: Extract cookies from user profiles across multiple browsers
-- **Upcoming Features**: Future versions will also support snatching of:
+- **Snatch Bookmarks**: Snatch all saved bookmarks from every browser
+- **Snatch History**: Now supports snatching of history across all browsers
+- **Upcoming Features**: Future versions will also support:
 
-        - Browser History
+        - Obfuscated strings
+        - Obfuscated API calls
 
-**Note**: This version does not include obfuscated strings or API calls and any other defense evasion technique. Those are planned for future releases.
+**Note**: This version does not include any defense evasion technique.
 
 --------------------------------------------------
 
@@ -27,6 +30,8 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 - **Easy to Use**: No complicated setup or configuration required
 - **Zero External Dependencies**: Completely written in C and C++, with little to no need for additional libraries
 - **Cross-Browser Support**: Handles both Chromium and Gecko-based browsers with ease
+- **History & Bookmarks**: Now supports snatching of history and bookmarks across all browsers
+- **Greed Mode**: Greed mode included which snatches everything in a single stealer db
 - **Future-Proof**: Continuous updates with more capabilities and advanced evasion techniques
 
 --------------------------------------------------
@@ -71,9 +76,17 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
     - Parameter: -bookmarks -c: Snatch bookmarks from Chromium-based browsers only.
     - Parameter: -bookmarks -g: Snatch bookmarks from Gecko-based browsers only.
 
+  **History Snatching**
+    - Parameter: -history: Snatch history from every browser.
+    - Parameter: -history -c: Snatch history from Chromium-based browsers only.
+    - Parameter: -history -g: Snatch history from Gecko-based browsers only.
+
+  *Greed Mode**
+    - Parameter: -greed: Snatch everything from every browser and save in a single stealer database.
+
 <!-- ![Help Menu](Assets/help-menu.png) -->
 <p align="center">
-  <img src="Assets/help-menu-updated.png" alt="Help Menu" width="600"/>
+  <img src="Assets/help-menu.png" alt="Help Menu" width="600"/>
 </p>
 
 **Console Mode**
@@ -81,7 +94,7 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 
 <!-- ![Help Menu](Assets/console-mode.png) -->
 <p align="center">
-  <img src="Assets/console-mode-updated.png" alt="Help Menu" width="600"/>
+  <img src="Assets/console-mode.png" alt="Help Menu" width="600"/>
 </p>
 
 #### 📝 Example
@@ -145,6 +158,26 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 ./BrowserSnatch -bookmarks -g
 ```
 
+- To Snatch all browser history, use:
+```sh
+./BrowserSnatch -history
+```
+
+- To Snatch chromium browser history, use:
+```sh
+./BrowserSnatch -history -c
+```
+
+- To Snatch gecko browser history, use:
+```sh
+./BrowserSnatch -history -g
+```
+
+- To Snatch Everything from Every Browser, use Greed mode:
+```sh
+./BrowserSnatch -greed
+```
+
 --------------------------------------------------
 
 ### DEMO
@@ -158,53 +191,54 @@ Following GIF demonstrates the working of BrowserSnatch and how its stealer log 
 
 | № | Browser Name | Passwords | Cookies | Bookmarks | History |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#8987; |
-| 2 | Microsoft Edge | &#9989; | &#9989; | &#9989; | &#8987; |
-| 3 | Chromium | &#9989; | &#9989; | &#9989; | &#8987; |
-| 4 | Brave - Browser | &#9989; | &#9989; | &#9989; | &#8987; |
-| 5 | Epic Privacy Browser | &#9989; | &#9989; | &#9989; | &#8987; |
-| 6 | Amigo | &#9989; | &#9989; | &#9989; | &#8987; |
-| 7 | Vivaldi | &#9989; | &#9989; | &#9989; | &#8987; |
-| 8 | Orbitum | &#9989; | &#9989; | &#9989; | &#8987; |
-| 9 | SeaMonkey | &#9989; | &#9989; | &#9989; | &#8987; |
-| 10 | Kometa | &#9989; | &#9989; | &#9989; | &#8987; |
-| 11 | Comodo Dragon | &#9989; | &#9989; | &#9989; | &#8987; |
-| 12 | Torch | &#9989; | &#9989; | &#9989; | &#8987; |
-| 13 | Icecat | &#9989; | &#9989; | &#9989; | &#8987; |
-| 14 | Postbox | &#9989; | &#9989; | &#9989; | &#8987; |
-| 15 | Flock Browser | &#9989; | &#9989; | &#9989; | &#8987; |
-| 16 | K - Melon | &#9989; | &#9989; | &#9989; | &#8987; |
-| 17 | Sputnik | &#9989; | &#9989; | &#9989; | &#8987; |
-| 18 | CocCoc Browser | &#9989; | &#9989; | &#9989; | &#8987; |
-| 19 | Uran | &#9989; | &#9989; | &#9989; | &#8987; |
-| 20 | Yandex | &#9989; | &#9989; | &#9989; | &#8987; |
-| 21 | Firefox | &#9989; | &#9989; | &#9989; | &#8987; |
-| 22 | Waterfox | &#9989; | &#9989; | &#9989; | &#8987; |
-| 23 | Cyberfox | &#9989; | &#9989; | &#9989; | &#8987; |
-| 24 | Thunderbird | &#9989; | &#9989; | &#9989; | &#8987; |
-| 25 | IceDragon | &#9989; | &#9989; | &#9989; | &#8987; |
-| 26 | BlackHawk | &#9989; | &#9989; | &#9989; | &#8987; |
-| 27 | Pale Moon | &#9989; | &#9989; | &#9989; | &#8987; |
-| 28 | Opera | &#9989; | &#9989; | &#9989; | &#8987; |
-| 29 | Iridium | &#9989; | &#9989; | &#9989; | &#8987; |
-| 30 | CentBrowser | &#9989; | &#9989; | &#9989; | &#8987; |
-| 31 | Chedot | &#9989; | &#9989; | &#9989; | &#8987; |
-| 32 | liebao | &#9989; | &#9989; | &#9989; | &#8987; |
-| 33 | 7Star | &#9989; | &#9989; | &#9989; | &#8987; |
-| 34 | ChromePlus | &#9989; | &#9989; | &#9989; | &#8987; |
-| 35 | Citrio | &#9989; | &#9989; | &#9989; | &#8987; |
-| 36 | 360Chrome - Chrome | &#9989; | &#9989; | &#9989; | &#8987; |
-| 37 | Elements Browser | &#9989; | &#9989; | &#9989; | &#8987; |
-| 38 | Sleipnir5 | &#9989; | &#9989; | &#9989; | &#8987; |
-| 39 | ChromiumViewer | &#9989; | &#9989; | &#9989; | &#8987; |
-| 40 | QIP Surf | &#9989; | &#9989; | &#9989; | &#8987; |
-| 41 | Coowon| &#9989; | &#9989; | &#9989; | &#8987; |
+| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#9989; |
+| 2 | Microsoft Edge | &#9989; | &#9989; | &#9989; | &#9989; |
+| 3 | Chromium | &#9989; | &#9989; | &#9989; | &#9989; |
+| 4 | Brave - Browser | &#9989; | &#9989; | &#9989; | &#9989; |
+| 5 | Epic Privacy Browser | &#9989; | &#9989; | &#9989; | &#9989; |
+| 6 | Amigo | &#9989; | &#9989; | &#9989; | &#9989; |
+| 7 | Vivaldi | &#9989; | &#9989; | &#9989; | &#9989; |
+| 8 | Orbitum | &#9989; | &#9989; | &#9989; | &#9989; |
+| 9 | SeaMonkey | &#9989; | &#9989; | &#9989; | &#9989; |
+| 10 | Kometa | &#9989; | &#9989; | &#9989; | &#9989; |
+| 11 | Comodo Dragon | &#9989; | &#9989; | &#9989; | &#9989; |
+| 12 | Torch | &#9989; | &#9989; | &#9989; | &#9989; |
+| 13 | Icecat | &#9989; | &#9989; | &#9989; | &#9989; |
+| 14 | Postbox | &#9989; | &#9989; | &#9989; | &#9989; |
+| 15 | Flock Browser | &#9989; | &#9989; | &#9989; | &#9989; |
+| 16 | K - Melon | &#9989; | &#9989; | &#9989; | &#9989; |
+| 17 | Sputnik | &#9989; | &#9989; | &#9989; | &#9989; |
+| 18 | CocCoc Browser | &#9989; | &#9989; | &#9989; | &#9989; |
+| 19 | Uran | &#9989; | &#9989; | &#9989; | &#9989; |
+| 20 | Yandex | &#9989; | &#9989; | &#9989; | &#9989; |
+| 21 | Firefox | &#9989; | &#9989; | &#9989; | &#9989; |
+| 22 | Waterfox | &#9989; | &#9989; | &#9989; | &#9989; |
+| 23 | Cyberfox | &#9989; | &#9989; | &#9989; | &#9989; |
+| 24 | Thunderbird | &#9989; | &#9989; | &#9989; | &#9989; |
+| 25 | IceDragon | &#9989; | &#9989; | &#9989; | &#9989; |
+| 26 | BlackHawk | &#9989; | &#9989; | &#9989; | &#9989; |
+| 27 | Pale Moon | &#9989; | &#9989; | &#9989; | &#9989; |
+| 28 | Opera | &#9989; | &#9989; | &#9989; | &#9989; |
+| 29 | Iridium | &#9989; | &#9989; | &#9989; | &#9989; |
+| 30 | CentBrowser | &#9989; | &#9989; | &#9989; | &#9989; |
+| 31 | Chedot | &#9989; | &#9989; | &#9989; | &#9989; |
+| 32 | liebao | &#9989; | &#9989; | &#9989; | &#9989; |
+| 33 | 7Star | &#9989; | &#9989; | &#9989; | &#9989; |
+| 34 | ChromePlus | &#9989; | &#9989; | &#9989; | &#9989; |
+| 35 | Citrio | &#9989; | &#9989; | &#9989; | &#9989; |
+| 36 | 360Chrome - Chrome | &#9989; | &#9989; | &#9989; | &#9989; |
+| 37 | Elements Browser | &#9989; | &#9989; | &#9989; | &#9989; |
+| 38 | Sleipnir5 | &#9989; | &#9989; | &#9989; | &#9989; |
+| 39 | ChromiumViewer | &#9989; | &#9989; | &#9989; | &#9989; |
+| 40 | QIP Surf | &#9989; | &#9989; | &#9989; | &#9989; |
+| 41 | Coowon| &#9989; | &#9989; | &#9989; | &#9989; |
 
 --------------------------------------------------
 
 ### 🔄 Future Updates
-- **Bookmark and History Snatching**: Currently under development
-- **Advanced Defense Evasion Techniques**: String obfuscation, dynamic api resolution and other defense evasion techniques
+- **String obfuscation**: Currently under development
+- **API call obfuscation**: Dynamic api resolution
+- **Defense Evasion Techniques**: Advance defense evasion techniques
 
 Stay tuned for future releases!
 
@@ -216,5 +250,5 @@ For any inquiries or contributions, feel free to reach out to the [author](https
 --------------------------------------------------
 
 ### 🙏 Acknowledgments
-- Took a lot of help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
-- Took help with chrome key decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
+- Took help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
+- Took help with chrome key & password decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
