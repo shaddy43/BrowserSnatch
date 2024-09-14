@@ -81,7 +81,7 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
     - Parameter: -history -c: Snatch history from Chromium-based browsers only.
     - Parameter: -history -g: Snatch history from Gecko-based browsers only.
 
-  *Greed Mode**
+  **Greed Mode**
     - Parameter: -greed: Snatch everything from every browser and save in a single stealer database.
 
 <!-- ![Help Menu](Assets/help-menu.png) -->
