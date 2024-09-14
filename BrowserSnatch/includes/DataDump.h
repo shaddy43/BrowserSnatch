@@ -9,5 +9,6 @@
 bool dump_password_data(const std::string& db_path, std::vector<DataHolder> data_array, int data_index);
 bool dump_cookie_data(const std::string& db_path, std::vector<DataHolder> data_array, int data_index);
 bool dump_bookmark_data(const std::string& db_path, std::vector<DataHolder> data_array, int data_index);
+bool dump_history_data(const std::string& db_path, std::vector<DataHolder> data_array, int data_index);
 
 #endif // DATADUMP_H

