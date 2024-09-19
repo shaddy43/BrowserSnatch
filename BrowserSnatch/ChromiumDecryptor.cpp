@@ -92,6 +92,12 @@ std::string ChromiumDecryptor::AESDecrypter(std::vector<BYTE> EncryptedBlob)
 		std::vector<BYTE> PlainText;
 		std::vector<BYTE> IV(IV_SIZE); // Will hold initial vector data.
 
+		std::string meta(EncryptedBlob.begin(), EncryptedBlob.begin() + 3);
+
+		// Compare the first 3 bytes with the string "v20"
+		if (meta == "v20")
+			return "";
+
 		// Parse iv and password from the buffer using std::copy
 		std::copy(EncryptedBlob.data() + 3, EncryptedBlob.data() + 3 + IV_SIZE, IV.begin());
 		std::copy(EncryptedBlob.data() + 15, EncryptedBlob.data() + EncryptedBlobSize, CipherPass.begin());
