@@ -93,6 +93,11 @@ int main(int argc, char* argv[])
                 std::cout << "Target Gecko Browser cookies...\n";
                 visualizer.handler(5);
             }
+            else if (std::string(argv[2]) == "-chrome_app_bound") {
+                std::cout << "Target Chrome App-Bound Encrypted Browser cookies...\n";
+                std::cout << "NOTE: This involves Process Injection!!!\n";
+                visualizer.handler(14);
+            }
             else {
                 std::cout << "Invalid option for -cookies. Use -h for help.\n";
             }

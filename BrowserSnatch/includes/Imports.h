@@ -20,10 +20,14 @@
 #include <map>
 #include <ctime>
 #include <filesystem>
+#include <thread>
+#include <chrono>
+//#include "resource.h"
 #include <nlohmann/json.hpp>
 
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "bcrypt.lib")
+#pragma comment(lib, "ntdll")
 
 const int IV_SIZE = 12;
 const int TAG_SIZE = 16;

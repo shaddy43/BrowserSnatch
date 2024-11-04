@@ -27,6 +27,7 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 
 ### ✨ Whats NEW?
 
+- **Chrome App-Bound Encryption Bypass**: Latest App-Bound Encryption bypassed for chrome
 - **Easy to Use**: No complicated setup or configuration required
 - **Zero External Dependencies**: Completely written in C and C++, with little to no need for additional libraries
 - **Cross-Browser Support**: Handles both Chromium and Gecko-based browsers with ease
@@ -70,6 +71,7 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
     - Parameter: -cookies: Snatch cookies from every browser.
     - Parameter: -cookies -c: Snatch cookies from Chromium-based browsers only.
     - Parameter: -cookies -g: Snatch cookies from Gecko-based browsers only.
+    - Parameter: -cookies -chrome_app_bound: Snatch cookies from latest chrome app bound encryption only.
 
   **Bookmarks Snatching**
     - Parameter: -bookmarks: Snatch bookmarks from every browser.
@@ -141,6 +143,11 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
 - To Snatch gecko browser cookies, use:
 ```sh
 ./BrowserSnatch -cookies -g
+```
+
+- To Snatch chrome app-bound encrypted browser cookies, use:
+```sh
+./BrowserSnatch -cookies -chrome_app_bound
 ```
 
 - To Snatch all browser bookmarks, use:
@@ -252,3 +259,4 @@ For any inquiries or contributions, feel free to reach out to the [author](https
 ### 🙏 Acknowledgments
 - Took help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
 - Took help with chrome key & password decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
+- Took help for Retrieving App-Bound encryption key from [**snovvcrash**](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
