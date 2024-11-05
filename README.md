@@ -53,6 +53,16 @@ By using BrowserSnatch, you agree to:
 
 --------------------------------------------------
 
+### 🛠️ Build
+- Clone the repository
+- Open in Visual Studio
+- ISO C++17 Standard (/std:c++17) or higher
+- Import the resource in project (resource file in Chrome_key_retriever_shellcode/extract_key.bin)
+- Compile
+
+NOTE: Decrypted cookies using app-bound encryption key are saved as BLOB in stealer DB. The first 32 bytes of BLOB are uncertain, but next are decrypted cookies and can be seen if BLOB is converted to simple ascii or viewed in DB browser for sqlite (https://sqlitebrowser.org).
+--------------------------------------------------
+
 ### 🛠️ Usage
 To run BrowserSnatch, simply execute the binary from the command line. The tool will operate in default mode if no parameter is provided.
 

