@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="..\load.bin">
+    <None Include="..\Chrome_key_retriever_shellcode\extract_key.bin">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -83,7 +83,10 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Definitions.h">
+    <ClInclude Include="includes\Definitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
