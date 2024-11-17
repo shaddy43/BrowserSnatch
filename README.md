@@ -11,7 +11,9 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 
 --------------------------------------------------
 ### 💌 Support Me
-[![Button](Assets/paypal.png)](https://paypal.me/shaddy43)
+<a href="https://paypal.me/shaddy43">
+  <img src="Assets/paypal_icon.png" alt="Button" width="150" />
+</a>
 
 --------------------------------------------------
 
