@@ -10,6 +10,10 @@
 BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitive data from a variety of web browsers. This tool targets both Chromium-based browsers (such as Edge, Chrome, Opera, etc.) and Gecko-based browsers (such as Firefox, Thunderbird, etc.) overall including more than **40 browsers**, making it a comprehensive solution for browser data extraction.
 
 --------------------------------------------------
+### 💌 Support Me
+[![Button](Assets/paypal.png)](https://paypal.me/shaddy43)
+
+--------------------------------------------------
 
 ### 🚀 Capabilities
 - **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
