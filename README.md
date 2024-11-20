@@ -2,7 +2,7 @@
 ----------------------------------------------------
 
 <div align="center">
-  <img width="500px" src="Assets/browser_snatch.jpg" />
+  <img width="500px" src="Assets/browser_snatch1.jpg" />
 </div>
 
 ### A Versatile Browser Data Extraction Tool
