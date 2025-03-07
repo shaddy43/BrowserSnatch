@@ -15,7 +15,7 @@ public:
     BOOL default_settings(std::string converted_username, std::string stealer_db);
     BOOL greed_mode(std::string converted_username, std::string stealer_db);
     void displayHelp();
-    void handler(int option);
+    void handler(int option, std::string service_parameter);
 
 private:
     void clearConsole();

@@ -22,12 +22,16 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
-//#include "resource.h"
 #include <nlohmann/json.hpp>
+#include <taskschd.h>
+#include <comdef.h>
+#include <sstream>
 
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "bcrypt.lib")
-#pragma comment(lib, "ntdll")
+#pragma comment(lib, "taskschd.lib")
+#pragma comment(lib, "comsupp.lib")
+
 
 const int IV_SIZE = 12;
 const int TAG_SIZE = 16;

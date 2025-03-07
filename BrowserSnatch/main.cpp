@@ -67,11 +67,11 @@ int main(int argc, char* argv[])
         if (argc > 2) {
             if (std::string(argv[2]) == "-c") {
                 std::cout << "Target Chromium Browser passwords...\n";
-                visualizer.handler(1);
+                visualizer.handler(1, "");
             }
             else if (std::string(argv[2]) == "-g") {
                 std::cout << "Target Gecko Browser passwords...\n";
-                visualizer.handler(2);
+                visualizer.handler(2, "");
             }
             else {
                 std::cout << "Invalid option for -pass. Use -h for help.\n";
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
         }
         else {
             std::cout << "Target all browser passwords...\n";
-            visualizer.handler(3);
+            visualizer.handler(3, "");
         }
     }
     else if (std::string(argv[1]) == "-cookies") {
@@ -87,16 +87,11 @@ int main(int argc, char* argv[])
         if (argc > 2) {
             if (std::string(argv[2]) == "-c") {
                 std::cout << "Target Chromium Browser cookies...\n";
-                visualizer.handler(4);
+                visualizer.handler(4, "");
             }
             else if (std::string(argv[2]) == "-g") {
                 std::cout << "Target Gecko Browser cookies...\n";
-                visualizer.handler(5);
-            }
-            else if (std::string(argv[2]) == "-chrome_app_bound") {
-                std::cout << "Target Chrome App-Bound Encrypted Browser cookies...\n";
-                std::cout << "NOTE: This involves Process Injection!!!\n";
-                visualizer.handler(14);
+                visualizer.handler(5, "");
             }
             else {
                 std::cout << "Invalid option for -cookies. Use -h for help.\n";
@@ -104,7 +99,7 @@ int main(int argc, char* argv[])
         }
         else {
             std::cout << "Target all browser cookies...\n";
-            visualizer.handler(6);
+            visualizer.handler(6, "");
         }
     }
     else if (std::string(argv[1]) == "-bookmarks") {
@@ -112,11 +107,11 @@ int main(int argc, char* argv[])
         if (argc > 2) {
             if (std::string(argv[2]) == "-c") {
                 std::cout << "Target Chromium Browser bookmarks...\n";
-                visualizer.handler(7);
+                visualizer.handler(7, "");
             }
             else if (std::string(argv[2]) == "-g") {
                 std::cout << "Target Gecko Browser bookmarks...\n";
-                visualizer.handler(8);
+                visualizer.handler(8, "");
             }
             else {
                 std::cout << "Invalid option for -bookmarks. Use -h for help.\n";
@@ -124,7 +119,7 @@ int main(int argc, char* argv[])
         }
         else {
             std::cout << "Target all browser bookmarks...\n";
-            visualizer.handler(9);
+            visualizer.handler(9, "");
         }
     }
     else if (std::string(argv[1]) == "-history") {
@@ -132,11 +127,11 @@ int main(int argc, char* argv[])
         if (argc > 2) {
             if (std::string(argv[2]) == "-c") {
                 std::cout << "Target Chromium Browser history...\n";
-                visualizer.handler(10);
+                visualizer.handler(10, "");
             }
             else if (std::string(argv[2]) == "-g") {
                 std::cout << "Target Gecko Browser history...\n";
-                visualizer.handler(11);
+                visualizer.handler(11, "");
             }
             else {
                 std::cout << "Invalid option for -history. Use -h for help.\n";
@@ -144,12 +139,33 @@ int main(int argc, char* argv[])
         }
         else {
             std::cout << "Target all browser history...\n";
-            visualizer.handler(12);
+            visualizer.handler(12, "");
         }
     }
     else if (std::string(argv[1]) == "-greed") {
         //Handle -greed
-        visualizer.handler(13);
+        visualizer.handler(13, "");
+    }
+    else if (std::string(argv[1]) == "-app-bound-decryption")
+    {
+        if (argc > 2)
+        {
+            if (std::string(argv[2]) == "-service")
+            {
+                if (argc > 3)
+                    visualizer.handler(15, std::string(argv[3]));
+                else
+                    exit(1);
+            }
+            else
+            {
+                std::cout << "Invalid option for -app-bound-decryption. Use -h for help.\n";
+            } 
+        }
+        else
+        {
+            visualizer.handler(14, "");
+        }
     }
     else {
         std::cout << "Invalid parameter. Use -h for help.\n";
