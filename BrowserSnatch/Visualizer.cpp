@@ -54,6 +54,7 @@ void Visualizer::printMenu() {
     std::cout << " \033[1;36m[7]\033[0m Snatch Chromium Based Browser History" << std::endl;
     std::cout << " \033[1;36m[8]\033[0m Snatch Gecko Based Browser History" << std::endl;
     std::cout << " \033[1;36m[9]\033[0m Snatch Passwords & Cookies {default settings}" << std::endl;
+    std::cout << " \033[1;36m[10]\033[0m Snatch App-Bound-Encrypted Cookies" << std::endl;
     std::cout << " \033[1;31m[0]\033[0m Exit" << std::endl;
     printDivider('=', 75);
 }
@@ -192,6 +193,13 @@ void Visualizer::handleUserChoice(int choice) {
         if (!default_settings(converted_username, stealer_db))
             std::cerr << "BrowserSnatch executed with {default settings}: failed" << std::endl;
         break;
+    case 10:
+        std::cout << "\n\033[1;33m>> Snatching App-Bound-Encrypted Cookies...\033[0m" << std::endl;
+        if (!CheckProcessPriv())
+            std::cerr << "Admin Privileges Required !!!" << std::endl;
+        else
+            handler(14, ""); //handles app-bound-decryption
+        break;
     case 0:
         std::cout << "\n\033[1;31mExiting BrowserSnatch. Goodbye!\033[0m" << std::endl;
         break;
@@ -204,7 +212,8 @@ void Visualizer::displayHelp() {
     std::cout << "BrowserSnatch v2.1 - A versatile browser data extraction tool\n";
     std::cout << "(C) 2025 shaddy43\n\n";
     std::cout << "Usage: BrowserSnatch [OPTIONS]\n\n";
-    std::cout << "No parameter        Run with default settings, snatch {passwords, cookies} from all browsers\n\n";
+    std::cout << "No parameter        Run with default settings, snatch {passwords, cookies} from all browsers\n";
+    std::cout << "NOTE:               Except App-Bound-Encrypted Cookies\n\n";
     std::cout << "Options:\n";
     std::cout << "  -h                          Help menu\n";
     std::cout << "  -pass                       Snatch passwords from every browser\n";
@@ -219,8 +228,8 @@ void Visualizer::displayHelp() {
     std::cout << "  -history                    Snatch history from every browser\n";
     std::cout << "  -history -c                 Snatch history from Chromium browsers only\n";
     std::cout << "  -history -g                 Snatch history from Gecko browsers only\n";
-    std::cout << "  -greed                      Snatch everything\n";
-    std::cout << "  -app-bound-decryption       Snatch cookies encrypted with latest app bound encryption\n";
+    std::cout << "  -greed                      Snatch everything {including app-bound-encrypted cookies}\n";
+    std::cout << "  -app-bound-decryption       Snatch cookies encrypted with latest app-bound-encryption\n";
     std::cout << "  -console-mode               Launch BrowserSnatch Console Mode\n\n";
     std::cout << "For more details, visit: https://shaddy43.github.io\n";
 }
