@@ -165,7 +165,7 @@ Following GIF demonstrates the working of BrowserSnatch and how its stealer log 
 
 | № | Browser Name | Passwords | Cookies | Bookmarks | History | v20 Cookie Decryption (App-Bound) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
+| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; (v 133.0 |
 | 2 | Microsoft Edge | &#9989; | &#9989; | &#9989; | &#9989; | &#10060; |
 | 3 | Chromium | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
 | 4 | Brave - Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10060; |
