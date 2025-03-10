@@ -18,7 +18,7 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 --------------------------------------------------
 
 ### 🚀 Capabilities
-- **Snatch Latest App-Bound v20 Encrypted Cookies**: Extract and decrypt latest app-bound encrypted cookies
+- **Snatch Latest App-Bound v20 Encrypted Cookies**: Extract and decrypt latest app-bound encrypted cookies (chrome v133)
 - **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
 - **Snatch Cookies**: Extract cookies from user profiles across multiple browsers
 - **Snatch Bookmarks**: Snatch all saved bookmarks from every browser
