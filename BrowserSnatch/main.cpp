@@ -1,5 +1,5 @@
 /*
- * © 2024 Shayan Ahmed Khan - shaddy43
+ * © 2025 Shayan Ahmed Khan - shaddy43
  *
  * This software is provided under the MIT License.
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software

