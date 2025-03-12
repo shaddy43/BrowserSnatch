@@ -298,3 +298,116 @@ std::string GetBrowserProcessName(const std::string& browserFolder) {
 		return "";
 	}
 }
+
+std::string ReadUTF16LEFileToUTF8(const std::string& filename) {
+	std::ifstream file(filename, std::ios::binary);
+	if (!file) {
+		//throw std::runtime_error("Failed to open file!");
+		return "";
+	}
+
+	std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	file.close();
+
+	if (buffer.size() < 2) {
+		//throw std::runtime_error("File too small!");
+		return "";
+	}
+
+	// If there's no BOM, you can skip the BOM check and start at the beginning of the file
+	size_t offset = 0;
+
+	// Check for BOM (FF FE) and adjust the offset
+	if (buffer[0] == '\xFF' && buffer[1] == '\xFE') {
+		offset = 2; // Skip BOM
+	}
+
+	// Convert raw UTF-16 bytes (after BOM if present) to wide string
+	std::wstring wide_str(reinterpret_cast<const wchar_t*>(&buffer[offset]), (buffer.size() - offset) / 2);
+
+	// Convert wide string (UTF-16) to UTF-8
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, wide_str.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	std::string utf8_str(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, wide_str.c_str(), -1, &utf8_str[0], size_needed, nullptr, nullptr);
+
+	return utf8_str;
+}
+
+std::string GetAppDataPath()
+{
+	char appDataPath[MAX_PATH];
+	if (SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, appDataPath) != S_OK)
+	{
+		return "";
+	}
+	return std::string(appDataPath);
+}
+
+void DeleteFileAfterExit(const std::string& exePath) {
+	std::string cmd = "cmd /C ping 127.0.0.1 -n 2 > nul & del \"" + exePath + "\"";
+	system(cmd.c_str());  // Waits a moment before deleting
+}
+
+bool waitForFile(const std::string& filePath, int maxWaitTimeMs, int pollIntervalMs) {
+	auto startTime = std::chrono::steady_clock::now();
+
+	while (true) {
+		auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(
+			std::chrono::steady_clock::now() - startTime
+		).count();
+
+		if (elapsedMs > maxWaitTimeMs) {
+			return false; // Timeout
+		}
+
+		HANDLE hFile = CreateFileA(filePath.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hFile != INVALID_HANDLE_VALUE) {
+			CloseHandle(hFile);
+			return true; // File is available
+		}
+
+		if (GetLastError() != ERROR_SHARING_VIOLATION) {
+			return false; // Some other error occurred
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(pollIntervalMs));
+	}
+}
+
+//bool writeToFileWithLock(const std::string& data, const std::string& path, int timeout_ms) {
+//	HANDLE hFile = CreateFileA(path.c_str(), GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+//	if (hFile == INVALID_HANDLE_VALUE) {
+//		std::cerr << "Failed to open file." << std::endl;
+//		return false;
+//	}
+//
+//	auto start = std::chrono::steady_clock::now();
+//	while (true) {
+//		OVERLAPPED overlapped = {};
+//		if (LockFileEx(hFile, LOCKFILE_EXCLUSIVE_LOCK, 0, MAXDWORD, MAXDWORD, &overlapped)) {
+//			break;
+//		}
+//		if (GetLastError() != ERROR_LOCK_VIOLATION) {
+//			CloseHandle(hFile);
+//			return false;
+//		}
+//		if (std::chrono::steady_clock::now() - start > std::chrono::milliseconds(timeout_ms)) {
+//			CloseHandle(hFile);
+//			std::cerr << "Timeout waiting for file lock." << std::endl;
+//			return false;
+//		}
+//		std::this_thread::sleep_for(std::chrono::milliseconds(50));
+//	}
+//
+//	std::ofstream outFile(path, std::ios::out | std::ios::trunc);
+//	if (!outFile) {
+//		std::cerr << "Failed to write to file." << std::endl;
+//		CloseHandle(hFile);
+//		return false;
+//	}
+//	outFile << data;
+//	outFile.close();
+//	UnlockFileEx(hFile, 0, MAXDWORD, MAXDWORD, NULL);
+//	CloseHandle(hFile);
+//	return true;
+//}

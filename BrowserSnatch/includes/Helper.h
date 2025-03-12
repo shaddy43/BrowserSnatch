@@ -22,5 +22,10 @@ inline bool isBase64(unsigned char c);
 std::wstring GetExecutablePath();
 bool file_exist(const std::string& filePath);
 std::string BytesToHexString(const BYTE* byteArray, size_t size);
+std::string ReadUTF16LEFileToUTF8(const std::string& filename);
+std::string GetAppDataPath();
+void DeleteFileAfterExit(const std::string& exePath);
+bool waitForFile(const std::string& filePath, int maxWaitTimeMs, int pollIntervalMs);
+//bool writeToFileWithLock(const std::string& data, const std::string& path, int timeout_ms);
 
 #endif /* HELPER_H */#pragma once

@@ -18,12 +18,12 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 --------------------------------------------------
 
 ### 🚀 Capabilities
-- **Snatch Latest App-Bound v20 Encrypted Cookies**: Extract and decrypt latest app-bound encrypted cookies (chrome v133)
+- **Snatch Latest App-Bound v20 Encrypted Cookies**: Extract and decrypt latest app-bound encrypted cookies (chrome, edge, brave)
 - **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
 - **Snatch Cookies**: Extract cookies from user profiles across multiple browsers
 - **Snatch Bookmarks**: Snatch all saved bookmarks from every browser
 - **Snatch History**: Now supports snatching of history across all browsers
-- **Super Fast**: Completely written in c/c++ with very fast performance
+- **Super Fast**: Written in c/c++ with very fast performance
 - **Easy to Use**: No complicated setup or configuration required
 - **Zero External Dependencies**: Completely written in c/c++, with little to no need for additional libraries
 - **Cross-Browser Support**: Handles both Chromium and Gecko-based browsers with ease
@@ -78,7 +78,7 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
     - Parameter: -cookies: Snatch cookies from every browser.
     - Parameter: -cookies -c: Snatch cookies from Chromium-based browsers only.
     - Parameter: -cookies -g: Snatch cookies from Gecko-based browsers only.
-    - Parameter: -app-bound-decryption: Snatch cookies from latest v20 chrome app bound encryption only.
+    - Parameter: -app-bound-decryption: Snatch cookies from latest v20 app bound encryption only (requires admin)
 
   **Bookmarks Snatching**
     - Parameter: -bookmarks: Snatch bookmarks from every browser.
@@ -165,10 +165,10 @@ Following GIF demonstrates the working of BrowserSnatch and how its stealer log 
 
 | № | Browser Name | Passwords | Cookies | Bookmarks | History | v20 Cookie Decryption (App-Bound) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; (v133.0) |
-| 2 | Microsoft Edge | &#9989; | &#9989; | &#9989; | &#9989; | &#10060; |
+| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
+| 2 | Microsoft Edge | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
 | 3 | Chromium | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 4 | Brave - Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10060; |
+| 4 | Brave - Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
 | 5 | Epic Privacy Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
 | 6 | Amigo | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
 | 7 | Vivaldi | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
@@ -225,5 +225,6 @@ For any inquiries or contributions, feel free to reach out to the [author](https
 ### 🙏 Acknowledgments
 - Took help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
 - Took help with chrome key & password decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
-- Took help for Retrieving App-Bound encryption key from [**snovvcrash**](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
-- App-Bound-Decryption based on PoC from [**runassu**](https://github.com/runassu/chrome_v20_decryption/blob/main/decrypt_chrome_v20_cookie.py).
+- Retrieving App-Bound encryption key from using PoC from [**snovvcrash**](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
+- V2.1 Chrome App-Bound-Decryption based on PoC from [**runassu**](https://github.com/runassu/chrome_v20_decryption/blob/main/decrypt_chrome_v20_cookie.py).
+- Other browser support took from [**xaitax**](https://github.com/xaitax/Chrome-App-Bound-Encryption-Decryption).
