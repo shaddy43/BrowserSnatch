@@ -18,9 +18,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#define _CRT_SECURE_NO_WARNINGS
-#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
-
 #include "includes/Visualizer.h"
 std::string stealer_db;
 

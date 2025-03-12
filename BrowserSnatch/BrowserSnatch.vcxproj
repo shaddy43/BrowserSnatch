@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppBoundDecryptor.cpp" />
     <ClCompile Include="AppBoundKeyDecryptor.cpp" />
     <ClCompile Include="AppBoundKeyParser.cpp" />
     <ClCompile Include="ChromiumDecryptor.cpp" />
@@ -148,6 +149,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\AppBoundDecryptor.h" />
     <ClInclude Include="includes\AppBoundKeyDecryptor.h" />
     <ClInclude Include="includes\AppBoundKeyParser.h" />
     <ClInclude Include="includes\ChromiumDecryptor.h" />

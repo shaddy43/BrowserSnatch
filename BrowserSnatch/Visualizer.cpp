@@ -209,7 +209,7 @@ void Visualizer::handleUserChoice(int choice) {
 }
 
 void Visualizer::displayHelp() {
-    std::cout << "BrowserSnatch v2.1 - A versatile browser data extraction tool\n";
+    std::cout << "BrowserSnatch v2.2 - A versatile browser data extraction tool\n";
     std::cout << "(C) 2025 shaddy43\n\n";
     std::cout << "Usage: BrowserSnatch [OPTIONS]\n\n";
     std::cout << "No parameter        Run with default settings, snatch {passwords, cookies} from all browsers\n";
