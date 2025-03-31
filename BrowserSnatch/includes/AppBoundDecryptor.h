@@ -59,7 +59,7 @@ public:
     AppBoundDecryptor();
 
     // Destructor (if needed)
-    ~AppBoundDecryptor();
+    //~AppBoundDecryptor();
 
     // Member function to initialize ChromiumDecryptor
     BOOL RequestCOM(std::string service_parameter);
