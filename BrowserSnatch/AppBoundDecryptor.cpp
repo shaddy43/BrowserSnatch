@@ -7,13 +7,13 @@ const uint8_t kCryptAppBoundKeyPrefix[] = { 'A', 'P', 'P', 'B' };
 
 AppBoundDecryptor::AppBoundDecryptor() {}
 
-AppBoundDecryptor::~AppBoundDecryptor() {
-	// Free memory allocated for master_key_blob if it's not null
-	if (COM_master_key_blob != nullptr) {
-		LocalFree(COM_master_key_blob->pbData);
-		delete COM_master_key_blob;
-	}
-}
+//AppBoundDecryptor::~AppBoundDecryptor() {
+//	// Free memory allocated for master_key_blob if it's not null
+//	if (COM_master_key_blob != nullptr) {
+//		LocalFree(COM_master_key_blob->pbData);
+//		delete COM_master_key_blob;
+//	}
+//}
 
 BOOL AppBoundDecryptor::AppBoundDecryptorInit(std::string path, std::string identifier)
 {
