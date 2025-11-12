@@ -1,4 +1,4 @@
-#include "includes\AppBoundDecryptor.h"
+﻿#include "includes\AppBoundDecryptor.h"
 #include "includes\Helper.h"
 
 DATA_BLOB* COM_master_key_blob = nullptr;
@@ -31,8 +31,9 @@ BOOL AppBoundDecryptor::AppBoundDecryptorInit(std::string path, std::string iden
 
         std::string line;
         std::smatch match;
+        std::string lastValue;
 
-        while (std::getline(file, line)) {
+        /*while (std::getline(file, line)) {
             if (std::regex_search(line, match, pattern)) {
 
                 if (match[1] == "NULL")
@@ -43,7 +44,27 @@ BOOL AppBoundDecryptor::AppBoundDecryptorInit(std::string path, std::string iden
             }
             else
                 return false;
+        }*/
+
+        // UPDATING CODE HERE TO MATCH THE LAST (RECENT) ITEM VALUE
+        //-------------------------------
+
+        while (std::getline(file, line)) {
+            for (std::sregex_iterator it(line.begin(), line.end(), pattern), end; it != end; ++it)
+            {
+                std::string val = (*it)[1];
+
+                if (val != "NULL")
+                    lastValue = val; // keep overwriting → last match wins
+            }
         }
+
+        // Now check the last match AFTER the loop
+        if (lastValue.empty())
+            return false;
+
+        if (!ConvertToBLOB(lastValue))
+            return false;
     }
     else {
         return false;
