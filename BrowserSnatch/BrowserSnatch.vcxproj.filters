@@ -48,9 +48,6 @@
     <ClCompile Include="TaskService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AppBoundKeyDecryptor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AppBoundDecryptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\TaskService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="includes\AppBoundKeyDecryptor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\AppBoundDecryptor.h">
