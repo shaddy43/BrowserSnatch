@@ -1,221 +1,210 @@
-## BrowserSnatch
-----------------------------------------------------
+# BrowserSnatch
 
 <div align="center">
   <img width="500px" src="Assets/browser_snatch1.jpg" />
 </div>
 
-### A Versatile Browser Data Extraction Tool
+### A Versatile Browser Data Extraction Tool for Authorized Security Testing
 
-BrowserSnatch is a powerful and versatile tool designed to **"snatch"** sensitive data from a variety of web browsers. This tool targets both Chromium-based browsers (such as Edge, Chrome, Opera, etc.) and Gecko-based browsers (such as Firefox, Thunderbird, etc.) overall including more than **40 browsers**, making it a comprehensive solution for browser data extraction.
+**BrowserSnatch** is an offensive-security research tool that extracts and decrypts sensitive data from web browsers. It is built for **red teams, penetration testers, and security researchers** to demonstrate the real-world impact of endpoint compromise during **authorized engagements**. It targets both Chromium-based browsers (Chrome, Edge, Brave, Opera, etc.) and Gecko-based browsers (Firefox, Thunderbird, etc.), covering **40+ browsers**.
 
---------------------------------------------------
-### 💌 Buy Me A Coffee
-<a href="https://paypal.me/shaddy43">
-  <img src="Assets/paypal_icon.png" alt="Button" width="150" />
-</a>
+> [!WARNING]
+> **This tool is for LEGAL, AUTHORIZED penetration testing ONLY.**
+> Running BrowserSnatch against systems, accounts, or data you do not own or lack **explicit written permission** to test may be a **crime** in your jurisdiction (e.g. the U.S. Computer Fraud and Abuse Act, the UK Computer Misuse Act, and equivalent laws worldwide). You are solely responsible for how you use it. See [Acceptable Use](ACCEPTABLE_USE.md) before you build or run anything.
 
---------------------------------------------------
+---
 
-### 🚀 Capabilities
-- **Snatch Latest App-Bound Encrypted data**: Extract and decrypt latest app-bound encrypted data (chrome, edge, brave)
-- **Snatch Saved Passwords**: Effortlessly retrieve stored passwords from all major Chromium and Gecko-based browsers
-- **Snatch Cookies**: Extract cookies from user profiles across multiple browsers
-- **Snatch Bookmarks**: Snatch all saved bookmarks from every browser
-- **Snatch History**: Now supports snatching of history across all browsers
-- **Super Fast**: Written in c/c++ with very fast performance
-- **Easy to Use**: No complicated setup or configuration required
-- **Zero External Dependencies**: Completely written in c/c++, with little to no need for additional libraries
-- **Cross-Browser Support**: Handles both Chromium and Gecko-based browsers with ease
-- **Greed Mode**: Greed mode included which snatches everything in a single stealer db
+## ✅ Authorized Use Only — Read This First
 
---------------------------------------------------
+By downloading, building, or running BrowserSnatch, you confirm that:
 
-### ⚠️ Disclaimer
+- You are using it **only** on systems you own, or for which you hold **explicit, written authorization** (e.g. a signed penetration-testing agreement, rules of engagement, or scope document).
+- Your use complies with **all** applicable local, national, and international laws.
+- You will **not** use it to access, exfiltrate, or handle data belonging to others without consent.
+- You accept **full and sole responsibility** for your actions. The author provides this software for defensive research and education and is **not liable** for any misuse.
 
-BrowserSnatch is a tool designed for legal, ethical penetration testing and educational purposes only. The author is NOT responsible for any misuse or illegal activities performed using this tool. Always ensure you have proper authorization before testing any system or network.
+If you cannot agree to all of the above, **do not use this software.**
 
---------------------------------------------------
+Full terms: [ACCEPTABLE_USE.md](ACCEPTABLE_USE.md) · Vulnerability reporting: [SECURITY.md](SECURITY.md) · License: [LICENSE](LICENSE)
 
-### 📜 Code of Conduct
+---
+
+## 🎯 Why This Exists
+
+Credential and session theft from browsers is one of the most common techniques used by real-world malware and adversaries. BrowserSnatch reproduces those techniques in a controlled, inspectable, open-source form so that:
+
+- **Red teams** can accurately model post-exploitation impact during sanctioned engagements.
+- **Blue teams and defenders** can study how browser data is stored, encrypted, and extracted in order to build better detections and hardening.
+- **Researchers and students** can learn how modern browser encryption (including app-bound encryption) works and where it can fail.
+
+Understanding the offense is a prerequisite for effective defense.
+
+---
+
+## 🚀 Capabilities
+
+- **App-Bound Encrypted Data (v20)**: Extract and decrypt the latest app-bound encrypted data (Chrome, Edge, Brave).
+- **Saved Passwords**: Retrieve stored passwords from major Chromium and Gecko-based browsers.
+- **Cookies**: Extract cookies from user profiles across multiple browsers.
+- **Bookmarks**: Collect saved bookmarks from every supported browser.
+- **History**: Extract browsing history across all supported browsers.
+- **Fast**: Written in C/C++ for high performance.
+- **Minimal Dependencies**: Written in C/C++ with little to no need for external libraries.
+- **Cross-Browser**: Handles both Chromium and Gecko-based browsers.
+- **Greed Mode**: Collects everything into a single consolidated database.
+
+---
+
+## 📜 Code of Conduct
 
 By using BrowserSnatch, you agree to:
 
-- Use this tool in compliance with all local, state, and federal laws
-- Obtain proper authorization before testing any system or network
-- Respect privacy and confidentiality when handling data
+- Use this tool in compliance with all local, state, national, and international laws.
+- Obtain **explicit written authorization** before testing any system, network, or data.
+- Stay within the agreed scope / rules of engagement of your assessment.
+- Respect privacy and confidentiality when handling any data you encounter.
+- Securely destroy extracted data once your authorized engagement concludes.
 
---------------------------------------------------
+---
 
-### 🛠️ Build
-- Clone the repository
-- Open in Visual Studio
-- ISO C++17 Standard (/std:c++17) or higher
-- Include missing packages (eg; nlohmann) using Visual Studio NuGet installer
-- Compile
+## 🛠️ Build
 
---------------------------------------------------
+- Clone the repository.
+- Open in Visual Studio.
+- Use ISO C++17 (`/std:c++17`) or higher.
+- Install any missing packages (e.g. `nlohmann`) via the Visual Studio NuGet installer.
+- Compile.
 
-### 🛠️ Usage
-To run BrowserSnatch, simply execute the binary from the command line. The tool will operate in default mode if no parameter is provided.
+> [!NOTE]
+> Building this software does not grant you permission to use it against any particular target. Authorization is your responsibility.
+
+---
+
+## 🛠️ Usage
+
+Run BrowserSnatch from the command line. With no parameter it operates in default mode.
 
 **Default Mode**
-- No Parameter Provided: Executes with default settings and attempts to snatch all saved passwords and cookies
+- No parameter: attempts to snatch all saved passwords and cookies.
 
-**CommandLine Mode**
-- Parameter: -h: Displays a help menu detailing all available options.
+**Command-Line Mode**
+- `-h`: Display the help menu with all available options.
 
-  **Password Snatching**
-    - Parameter: -pass: Snatch passwords from every browser.
-    - Parameter: -pass -c: Snatch passwords from Chromium-based browsers only.
-    - Parameter: -pass -g: Snatch passwords from Gecko-based browsers only.
+**Password Snatching**
+- `-pass`: Passwords from every browser.
+- `-pass -c`: Chromium-based browsers only.
+- `-pass -g`: Gecko-based browsers only.
 
-  **Cookie Snatching**
-    - Parameter: -cookies: Snatch cookies from every browser.
-    - Parameter: -cookies -c: Snatch cookies from Chromium-based browsers only.
-    - Parameter: -cookies -g: Snatch cookies from Gecko-based browsers only.
-    - Parameter: -app-bound-decryption: Snatch cookies from latest v20 app bound encryption only (requires admin)
+**Cookie Snatching**
+- `-cookies`: Cookies from every browser.
+- `-cookies -c`: Chromium-based browsers only.
+- `-cookies -g`: Gecko-based browsers only.
+- `-app-bound-decryption`: Cookies from the latest v20 app-bound encryption only (requires admin).
 
-  **Bookmarks Snatching**
-    - Parameter: -bookmarks: Snatch bookmarks from every browser.
-    - Parameter: -bookmarks -c: Snatch bookmarks from Chromium-based browsers only.
-    - Parameter: -bookmarks -g: Snatch bookmarks from Gecko-based browsers only.
+**Bookmarks Snatching**
+- `-bookmarks`: Bookmarks from every browser.
+- `-bookmarks -c`: Chromium-based browsers only.
+- `-bookmarks -g`: Gecko-based browsers only.
 
-  **History Snatching**
-    - Parameter: -history: Snatch history from every browser.
-    - Parameter: -history -c: Snatch history from Chromium-based browsers only.
-    - Parameter: -history -g: Snatch history from Gecko-based browsers only.
+**History Snatching**
+- `-history`: History from every browser.
+- `-history -c`: Chromium-based browsers only.
+- `-history -g`: Gecko-based browsers only.
 
-  **Greed Mode**
-    - Parameter: -greed: Snatch everything from every browser and save in a single stealer database.
+**Greed Mode**
+- `-greed`: Snatch everything from every browser into a single consolidated database.
 
-  **NOTE**
-    - If fails to snatch cookies or passwords, RUN -app-bound-decryption mode first.
-    - If still fails, run -recalibrate mode.
+> [!NOTE]
+> - If cookie or password snatching fails, run `-app-bound-decryption` mode first.
+> - If it still fails, run `-recalibrate` mode.
 
-<!-- ![Help Menu](Assets/help-menu.png) -->
 <p align="center">
   <img src="Assets/help-menu.png" alt="Help Menu" width="600"/>
 </p>
 
-#### 📝 Example
-- Run the following command to start BrowserSnatch in default mode:
-```sh
-./BrowserSnatch
-```
+---
 
-- To see the user-friendly console interface, use:
-```sh
-./BrowserSnatch -console-mode
-```
+## 🎬 Demo
 
-- To see help menu, use:
-```sh
-./BrowserSnatch -h
-```
-
-- To Snatch all browser passwords, use:
-```sh
-./BrowserSnatch -pass
-```
-
-- To Snatch all browser cookies, use:
-```sh
-./BrowserSnatch -cookies
-```
-
-- To Snatch chrome **v20 app-bound encrypted** browser cookies, use:
-```sh
-./BrowserSnatch -app-bound-decryption
-```
-
-- To Snatch all browser bookmarks, use:
-```sh
-./BrowserSnatch -bookmarks
-```
-
-- To Snatch all browser history, use:
-```sh
-./BrowserSnatch -history
-```
-
-- To Snatch Everything from Every Browser, use Greed mode:
-```sh
-./BrowserSnatch -greed
-```
-
---------------------------------------------------
-
-### DEMO
-Following GIF demonstrates the working of BrowserSnatch and how its stealer log can be accessed.
+The following GIF demonstrates BrowserSnatch and how its stealer log can be accessed.
 
 ![Demo](Assets/Demo.gif)
 
---------------------------------------------------
+---
 
-### Supported Browser Snatch:
+## 🌐 Supported Browsers
 
 | № | Browser Name | Passwords | Cookies | Bookmarks | History | v20 Cookie Decryption (App-Bound) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Chrome | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
-| 2 | Microsoft Edge | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
-| 3 | Chromium | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 4 | Brave - Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#9989; |
-| 5 | Epic Privacy Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 6 | Amigo | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 7 | Vivaldi | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 8 | Orbitum | &#9989; | &#9989; | &#9989; | &#9989; | &#10134;|
-| 9 | SeaMonkey | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 10 | Kometa | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 11 | Comodo Dragon | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 12 | Torch | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 13 | Icecat | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 14 | Postbox | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 15 | Flock Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 16 | K - Melon | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 17 | Sputnik | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 18 | CocCoc Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 19 | Uran | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 20 | Yandex | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 21 | Firefox | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 22 | Waterfox | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 23 | Cyberfox | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 24 | Thunderbird | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 25 | IceDragon | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 26 | BlackHawk | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 27 | Pale Moon | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 28 | Opera | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 29 | Iridium | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 30 | CentBrowser | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 31 | Chedot | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 32 | liebao | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 33 | 7Star | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 34 | ChromePlus | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 35 | Citrio | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 36 | 360Chrome - Chrome | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 37 | Elements Browser | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 38 | Sleipnir5 | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 39 | ChromiumViewer | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 40 | QIP Surf | &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
-| 41 | Coowon| &#9989; | &#9989; | &#9989; | &#9989; | &#10134; |
+| 1 | Chrome | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 2 | Microsoft Edge | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 3 | Chromium | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 4 | Brave Browser | ✅ | ✅ | ✅ | ✅ | ✅ |
+| 5 | Epic Privacy Browser | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 6 | Amigo | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 7 | Vivaldi | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 8 | Orbitum | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 9 | SeaMonkey | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 10 | Kometa | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 11 | Comodo Dragon | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 12 | Torch | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 13 | Icecat | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 14 | Postbox | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 15 | Flock Browser | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 16 | K-Melon | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 17 | Sputnik | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 18 | CocCoc Browser | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 19 | Uran | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 20 | Yandex | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 21 | Firefox | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 22 | Waterfox | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 23 | Cyberfox | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 24 | Thunderbird | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 25 | IceDragon | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 26 | BlackHawk | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 27 | Pale Moon | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 28 | Opera | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 29 | Iridium | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 30 | CentBrowser | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 31 | Chedot | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 32 | liebao | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 33 | 7Star | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 34 | ChromePlus | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 35 | Citrio | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 36 | 360Chrome | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 37 | Elements Browser | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 38 | Sleipnir5 | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 39 | ChromiumViewer | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 40 | QIP Surf | ✅ | ✅ | ✅ | ✅ | ➖ |
+| 41 | Coowon | ✅ | ✅ | ✅ | ✅ | ➖ |
 
---------------------------------------------------
+---
 
-### 🔄 Future Updates
-- **Stability**: More stable tool
-- **Less Noise**: Better with leaving residue on systems
+## 🔄 Roadmap
 
-Stay tuned for future releases!
+- **Stability**: A more stable, reliable tool.
+- **Defensive documentation**: A detection/hardening guide for blue teams (planned).
 
---------------------------------------------------
+---
 
-### 📧 Contact
-For any inquiries or contributions, feel free to reach out to the [author](https://shaddy43.github.io) or contribute directly via GitHub Issues.
+## 📄 License & Terms
 
---------------------------------------------------
+- **License**: [MIT](LICENSE) © 2026 Shayan Ahmed Khan (shaddy43)
+- **Acceptable Use**: [ACCEPTABLE_USE.md](ACCEPTABLE_USE.md) - required reading; governs how you may use this software.
 
-### 🙏 Acknowledgments
-- Inspiration from Project by **SaulBerrenson** called [**BrowserStealer**](https://github.com/SaulBerrenson/BrowserStealer).
-- Chrome key & password decryption from [**0x00sec**](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
-- App-Bound encryption key PoC [**snovvcrash**](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
-- Other browser support [**xaitax**](https://github.com/xaitax/Chrome-App-Bound-Encryption-Decryption).
+The MIT license grants broad software rights but **does not** authorize you to access systems or data you do not own or lack permission to test. Legal authorization is separate from, and additional to, the software license.
+
+---
+
+## 📧 Contact
+
+For inquiries or contributions, reach out to the [author](https://shaddy43.github.io) or open a GitHub Issue (non-security topics only).
+
+---
+
+## 🙏 Acknowledgments
+
+- Inspired by **SaulBerrenson**'s [BrowserStealer](https://github.com/SaulBerrenson/BrowserStealer).
+- Chrome key & password decryption from [0x00sec](https://0x00sec.org/t/malware-development-1-password-stealers-chrome/33571).
+- App-bound encryption key PoC by [snovvcrash](https://gist.github.com/snovvcrash/caded55a318bbefcb6cc9ee30e82f824).
+- Additional browser support from [xaitax](https://github.com/xaitax/Chrome-App-Bound-Encryption-Decryption).
