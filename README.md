@@ -29,6 +29,16 @@ Full terms: [ACCEPTABLE_USE.md](ACCEPTABLE_USE.md) · Vulnerability reporting: [
 
 ---
 
+## 📄 BrowserSnatch Wiki — Complete Detection Guide
+
+BrowserSnatch is intended for authorized penetration testing but like any dual-use offensive software, it is being abused.
+
+This wiki gives blue teams, threat hunters, and detection engineers a **ready-to-deploy** detection package: Sigma rules, YARA rules, Detection Queries and Hunts, IOCs, and MITRE ATT&CK mappings, all in one browsable place.
+
+[BrowserSnatch Detection & Threat Intelligence](https://github.com/shaddy43/BrowserSnatch/wiki)
+
+---
+
 ## 🎯 Why This Exists
 
 Credential and session theft from browsers is one of the most common techniques used by real-world malware and adversaries. BrowserSnatch reproduces those techniques in a controlled, inspectable, open-source form so that:
