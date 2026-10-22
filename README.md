@@ -35,7 +35,7 @@ BrowserSnatch is intended for authorized penetration testing but like any dual-u
 
 This wiki gives blue teams, threat hunters, and detection engineers a **ready-to-deploy** detection package: Sigma rules, YARA rules, Detection Queries and Hunts, IOCs, and MITRE ATT&CK mappings, all in one browsable place.
 
-[BrowserSnatch Detection & Threat Intelligence](https://github.com/shaddy43/BrowserSnatch/wiki)
+[BrowserSnatch Detection & Threat Intelligence](https://git.shaddy43.com/shaddy43/BrowserSnatch/wiki)
 
 ---
 
